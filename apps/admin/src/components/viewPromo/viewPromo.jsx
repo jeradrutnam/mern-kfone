@@ -16,30 +16,19 @@
  * under the License.
  */
 
-import {styled} from '@mui/material/styles';
+import * as React from 'react';
+import FilterHeader from '../filterHeader/filterHeader';
+import PromoTable from '../promoTable/promoTable';
 
-const PREFIX = 'custom';
-
-export const classes = {
-  appBar: `${PREFIX}-app-bar`,
-  heading: `${PREFIX}-heading`,
-  image: `${PREFIX}-image`,
-  mainContainer: `${PREFIX}-main-container`,
-};
-
-export const StyleWrapper = styled('div')(({theme}) => ({
-  // [`& .${classes.appBar}`]: {
-  //   margin: '0 0 30px 0',
-  // },
-  // [`& .${classes.heading}`]: {
-  //   color: '#9c27b0',
-  // },
-  // [`& .${classes.image}`]: {
-  //   marginLeft: '15px',
-  // },
-  // [`& .${classes.mainContainer}`]: {
-  //   [theme.breakpoints.down('sm')]: {
-  //     flexDirection: 'column-reverse',
-  //   },
-  // },
-}));
+export default function ViewPromo() {
+  return (
+    <box>
+      <div style={{paddingTop: 16}}>
+        <FilterHeader />
+      </div>
+      <div style={{marginTop: 24}}>
+        <PromoTable />
+      </div>
+    </box>
+  );
+}

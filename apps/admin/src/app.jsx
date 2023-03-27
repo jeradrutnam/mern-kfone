@@ -23,18 +23,25 @@
  **/
 
 import React, {useEffect, useState} from 'react';
-import {Container, CssBaseline, Button, AppBar, Typography, Grow, Grid, Toolbar} from '@mui/material';
+import {Container, CssBaseline, Button, AppBar, Typography, Grow, Grid, Toolbar, Icon} from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {useAuthContext} from '@asgardeo/auth-react';
-
 import {getPosts} from './actions/posts';
 import Posts from './components/posts/posts';
 import Form from './components/form/form';
+import IconMenu from './components/iconMenu/iconMenu';
+import Devices from './components/devices/devices';
+import FilterHeader from './components/filterHeader/filterHeader';
 import {classes, StyleWrapper} from './style';
+import {Box} from '@mui/system';
+import IconButton from '@mui/material/IconButton';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import DevicesView from './components/devicesView/devicesView';
+import ViewPromo from './components/viewPromo/viewPromo';
+import Divider from '@mui/material/Divider';
 
 const App = () => {
   const {state, signIn, signOut, on} = useAuthContext();
-  const [currentId, setCurrentId] = useState(null);
   const dispatch = useDispatch();
 
   const USER_AUTHENTICATED = 'userAuthenticated';
@@ -61,58 +68,30 @@ const App = () => {
   return (
     <StyleWrapper>
       <CssBaseline />
-      <AppBar position="relative" color="default" className={classes.appBar}>
+      <AppBar position="relative" color="secondary" className={classes.appBar} style={{background: '#2E3B55'}}>
         <Toolbar sx={{flexWrap: 'wrap'}}>
           <Typography variant="h6" color="inherit" className={classes.heading} noWrap sx={{flexGrow: 1}}>
             Kfone - Manage Services
           </Typography>
-          {!state.isAuthenticated ? (
-            <Button className={classes.buttonSubmit} variant="outlined" sx={{my: 1, mx: 1.5}} onClick={() => signIn()}>
-              Sign In
-            </Button>
-          ) : (
-            <>
-              <nav>{state.username}</nav>
-              <Button
-                className={classes.buttonSubmit}
-                variant="outlined"
-                sx={{my: 1, mx: 1.5}}
-                onClick={() => handleLogout()}
-              >
-                Logout
-              </Button>
-            </>
-          )}
+          <Box style={{marginRight: 24}}>
+            <Button variant="text">Dashboard</Button>
+            <Button variant="text">Settings</Button>
+            <Button variant="text">Manage Customers</Button>
+          </Box>
+          <IconButton size="large" edge="end" aria-label="account of current user" aria-haspopup="true" color="inherit">
+            <AccountCircle />
+          </IconButton>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="lg">
-        <Grow in>
-          <Grid
-            className={classes.mainContainer}
-            container
-            justifyContent="space-between"
-            alignItems="stretch"
-            spacing={3}
-          >
-            {state.isAuthenticated ? (
-              <>
-                <Grid item xs={12} sm={7}>
-                  <Posts setCurrentId={setCurrentId} sm={6} />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Form currentId={currentId} setCurrentId={setCurrentId} />
-                </Grid>
-              </>
-            ) : (
-              <>
-                <Grid item xs={12} sm={12}>
-                  <Posts setCurrentId={setCurrentId} sm={4} />
-                </Grid>
-              </>
-            )}
-          </Grid>
-        </Grow>
-      </Container>
+      <Grid container spacing={2}>
+        <Grid item xs={2} sx={{display: {xs: 'none', md: 'flex'}}}>
+          <IconMenu />
+        </Grid>
+        <Grid item xs={12} md={10}>
+          <ViewPromo />
+          {/* <DevicesView /> */}
+        </Grid>
+      </Grid>
     </StyleWrapper>
   );
 };

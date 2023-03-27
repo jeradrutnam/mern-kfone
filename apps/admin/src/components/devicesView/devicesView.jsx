@@ -16,30 +16,22 @@
  * under the License.
  */
 
-import {styled} from '@mui/material/styles';
+import * as React from 'react';
+import { Container, CssBaseline, Button, AppBar, Typography, Grow, Grid, Toolbar, Icon } from "@mui/material";
+import IconMenu from "../iconMenu/iconMenu";
+import Devices from "../devices/devices";
+import FilterHeader from "../filterHeader/filterHeader";
+import { Box } from "@mui/system";
 
-const PREFIX = 'custom';
-
-export const classes = {
-  appBar: `${PREFIX}-app-bar`,
-  heading: `${PREFIX}-heading`,
-  image: `${PREFIX}-image`,
-  mainContainer: `${PREFIX}-main-container`,
-};
-
-export const StyleWrapper = styled('div')(({theme}) => ({
-  // [`& .${classes.appBar}`]: {
-  //   margin: '0 0 30px 0',
-  // },
-  // [`& .${classes.heading}`]: {
-  //   color: '#9c27b0',
-  // },
-  // [`& .${classes.image}`]: {
-  //   marginLeft: '15px',
-  // },
-  // [`& .${classes.mainContainer}`]: {
-  //   [theme.breakpoints.down('sm')]: {
-  //     flexDirection: 'column-reverse',
-  //   },
-  // },
-}));
+export default function DevicesView() {
+    return (
+        <box>
+            <div style={{ paddingTop: 16 }}>
+                <FilterHeader />
+            </div>
+            <div style={{ marginTop: 24 }}>
+                <Devices />
+            </div>
+        </box>
+    );
+}
