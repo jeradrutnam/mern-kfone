@@ -17,6 +17,7 @@
  */
 
 import fetch from 'node-fetch';
+import {v4 as uuidv4} from 'uuid';
 
 /**
  * Introspects an Asgardeo access token to check if it is valid
@@ -90,6 +91,11 @@ export const isValidAccessToken = async (req, res, next) => {
     next();
   } else {
     // The access token is invalid, return a 401 Unauthorized error
-    res.status(401).send('Invalid Access Token');
+    res.status(401).json({
+      code: 'MK-AUTH-00003',
+      description: 'Unauthorized',
+      message: 'Invalid Access Token',
+      traceId: uuidv4(),
+    });
   }
 };
