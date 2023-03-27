@@ -19,4 +19,8 @@
 module.exports = {
   extends: ['plugin:@wso2/internal', 'plugin:@wso2/javascript', 'plugin:@wso2/jest', 'plugin:@wso2/prettier'],
   plugins: ['@wso2'],
+  rules: {
+    // Sometimes we need to immediately return from controller functions.
+    'consistent-return': 'off',
+  },
 };

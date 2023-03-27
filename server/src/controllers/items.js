@@ -16,8 +16,8 @@
  * under the License.
  */
 
-import {v4 as uuidv4} from 'uuid';
 import mongoose from 'mongoose';
+import {v4 as uuidv4} from 'uuid';
 import {isValidAccessToken} from '../middlewares/auth.js';
 import Item from '../models/item.js';
 
@@ -63,10 +63,10 @@ export const createItem = async (req, res) => {
     await newItem.save();
 
     // Return the new item with a 201 status code
-    return res.status(201).json({item: newItem});
+    res.status(201).json({item: newItem});
   } catch (error) {
     // Return an error message with a 500 status code
-    return res.status(500).json({
+    res.status(500).json({
       code: 'MK-ITEMS-00002',
       description: error.message,
       message: 'An error occurred while creating the item.',
@@ -116,10 +116,10 @@ export const updateItem = async (req, res) => {
     }
 
     // If the item was successfully updated, return the updated item with a 200 status code
-    return res.status(200).json(updatedItem);
+    res.status(200).json(updatedItem);
   } catch (error) {
     // If an error occurred during the update operation, log the error and return a 500 error with a message
-    return res.status(500).json({
+    res.status(500).json({
       code: 'MK-ITEMS-00001',
       description: error.message,
       message: 'An error occurred while updating the item.',
@@ -153,27 +153,28 @@ export const deleteItem = async (req, res) => {
       });
     }
 
-    // Try to delete the item with the given ID
-    const deletedItem = await Item.findByIdAndRemove(_id);
+    // Delete the item with the given ID from the database
+    const result = await Item.deleteOne({_id});
 
-    // If no item was found with the given ID, return a 404 Not Found error with a message
-    if (!deletedItem) {
+    // Check if the item was found and deleted
+    if (result.deletedCount === 0) {
+      // If not, return a 404 Not Found error with a message
       return res.status(404).json({
-        code: 'MK-ITEMS-00003',
+        code: 'MK-ITEMS-00001',
         description: 'Item not found',
-        message: 'Could not find any item with that ID',
+        message: 'The item with the provided ID was not found',
         traceId: uuidv4(),
       });
     }
 
-    // If the item was successfully deleted, return a 204 No Content status code
-    return res.status(204).send();
-  } catch (error) {
-    // If an error occurred during the delete operation, log the error and return a 500 error with a message
-    return res.status(500).json({
-      code: 'MK-ITEMS-00001',
-      description: error.message,
-      message: 'An error occurred while deleting the item.',
+    // If the item was successfully deleted, return a 204 No Content status
+    res.sendStatus(204);
+  } catch (err) {
+    // If an error occurred, log the error and return a 500 Internal Server Error status
+    res.status(500).json({
+      code: 'MK-ITEMS-00003',
+      description: 'Internal Server Error',
+      message: 'An internal server error occurred',
       traceId: uuidv4(),
     });
   }

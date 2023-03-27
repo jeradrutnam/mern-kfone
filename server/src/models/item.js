@@ -40,6 +40,10 @@ const itemSchema = mongoose.Schema({
     required: true,
     type: Number,
   },
+  promotions: {
+    default: [],
+    type: [{ref: 'Promotion', type: mongoose.Schema.Types.ObjectId}],
+  },
 });
 
 // Create a Mongoose model for the items collection, based on the itemSchema
