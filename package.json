@@ -1,0 +1,43 @@
+{
+  "private": true,
+  "name": "@asgardeo-samples/mern-kfone-workspace",
+  "version": "0.1.0",
+  "description": "Asgardeo - Kfone MERN sample",
+  "author": "WSO2",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/jeradrutnam/mern-kfone#readme",
+  "bugs": {
+    "url": "https://github.com/jeradrutnam/mern-kfone/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeradrutnam/mern-kfone"
+  },
+  "keywords": [
+    "b2c",
+    "asgardeo",
+    "asgardeo-samples",
+    "mern"
+  ],
+  "workspaces": [
+    "apps/*",
+    "server"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "@wso2/eslint-plugin": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/eslint-plugin?39a1b6d84f3ca2a77e3de9363685ca42a4610793",
+    "@wso2/prettier-config": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/prettier-config?39a1b6d84f3ca2a77e3de9363685ca42a4610793",
+    "eslint": "^8.36.0",
+    "prettier": "^2.8.7",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "packageManager": "npm@8.19.2"
+}
