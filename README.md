@@ -1,7 +1,7 @@
 <p align="center" style="color: #343a40">
   <h1 align="center">Kfone MERN Sample</h1>
 </p>
-<p align="center" style="font-size: 1.2rem;">TAsgardeo - Kfone MERN sample.</p>
+<p align="center" style="font-size: 1.2rem;">Asgardeo - Kfone MERN sample.</p>
 
 ### Apps & Services
 
