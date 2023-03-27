@@ -36,23 +36,27 @@ cp .env.example .env.local
 5. Update the values in the `.env` file based on your requirements.
 
 ```bash
-# The port number on which the client application will run
+# The port number that the server will listen to.
+# Change this to the desired port number that the server should listen to.
 PORT=3002
 
-# The endpoint of the server's API that the client application will communicate with
-# E.g., http://localhost:5000/posts
-REACT_APP_API_ENDPOINT=<add-server-api-url>
-
-# The client ID for the Asgardeo Single Page Application (SPA) app
-REACT_APP_CLIENT_ID=<add-asgardeo-spa-app-client-id-here>
-
-# The base URL for the client application
-# E.g., http://localhost:3000
-REACT_APP_CLIENT_BASE_URL=<add-client-app-base-url-here>
+# MongoDB connection URL for the application to use
+MONGODB_URI=<add-mongodb-connection-url-here>
 
 # The base URL for the Asgardeo organization's API
 # E.g., https://api.asgardeo.io/t/your-org
-REACT_APP_ASGARDEO_BASE_URL=<add-asgardeo-org-base-url-here>
+ASGARDEO_BASE_URL=<add-asgardeo-org-base-url-her>
+
+# The base URLs of clients that are allowed to access the API.
+# Separate by commas if there's more than one.
+# E.g., http://localhost:3000,http://localhost:3001
+CLIENT_BASE_URL=<add-client-app-base-url-here>
+
+# The client ID for the Asgardeo OIDC app
+CLIENT_ID=<add-asgardeo-oidc-app-client-id-here>
+
+# The client secret for the Asgardeo OIDC app
+CLIENT_SECRET=<add-asgardeo-oidc-app-client-secret-here>
 ```
 
 5. Start the development server.
