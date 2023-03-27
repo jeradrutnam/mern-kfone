@@ -1,0 +1,51 @@
+{
+  "private": true,
+  "name": "@asgardeo-samples/mern-kfone-server",
+  "version": "0.1.0",
+  "description": "The Node.js server for the Kfone MERN sample.",
+  "author": "WSO2",
+  "license": "Apache-2.0",
+  "main": "src/index.js",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/jeradrutnam/mern-kfone/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeradrutnam/mern-kfone",
+    "directory": "server"
+  },
+  "keywords": [
+    "b2c",
+    "asgardeo",
+    "asgardeo-samples",
+    "mern",
+    "server",
+    "node",
+    "express"
+  ],
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "lint": "npm run lint:es",
+    "lint:es": "eslint . --ext .js,.ts --fix"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.2",
+    "node-fetch": "^3.3.0",
+    "nodemon": "^2.0.20"
+  },
+  "devDependencies": {
+    "@wso2/eslint-plugin": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/eslint-plugin?39a1b6d84f3ca2a77e3de9363685ca42a4610793",
+    "@wso2/prettier-config": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/prettier-config?39a1b6d84f3ca2a77e3de9363685ca42a4610793",
+    "eslint": "^8.36.0",
+    "prettier": "^2.8.7"
+  }
+}
