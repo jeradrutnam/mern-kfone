@@ -16,11 +16,77 @@
  * under the License.
  */
 
+const fs = require('fs');
+const path = require('path');
+
+/**
+ * @fileoverview ESLint config to be used in React based projects.
+ */
+
+const LICENSE_HEADER_PATTERN_OVERRIDE_FILE_NAME = 'license-header-override.js';
+
+/**
+ * Check if an override license header file is defined , if so,
+ * return that else return the default license header pattern.
+ *
+ * @example
+ * Here's a simple example of overriding the license header pattern.:
+ * ```
+ * // create a `license-header-override.js` at the same level of `.eslintrc.js`
+ * module.exports = [
+ *     " * New Company.",
+       " * Copyright 2022.",
+ * ];
+ * ```
+ *
+ * @returns License Header Pattern.
+ */
+const getLicenseHeaderPattern = () => {
+  const LICENSE_HEADER_DEFAULT_PATTERN = [
+    '*',
+    {
+      pattern: ' Copyright \\(c\\) \\d{4}, WSO2 LLC. \\(https://www.wso2.com\\). All Rights Reserved.',
+      template: ` * Copyright (c) ${new Date().getFullYear()}, WSO2 LLC. (https://www.wso2.com). All Rights Reserved.`,
+    },
+    ' *',
+    ' * WSO2 LLC. licenses this file to you under the Apache License,',
+    ' * Version 2.0 (the "License"); you may not use this file except',
+    ' * in compliance with the License.',
+    ' * You may obtain a copy of the License at',
+    ' *',
+    ' *     http://www.apache.org/licenses/LICENSE-2.0',
+    ' *',
+    ' * Unless required by applicable law or agreed to in writing,',
+    ' * software distributed under the License is distributed on an',
+    ' * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY',
+    ' * KIND, either express or implied. See the License for the',
+    ' * specific language governing permissions and limitations',
+    ' * under the License.',
+    ' ',
+  ];
+
+  if (!fs.existsSync(path.resolve(__dirname, LICENSE_HEADER_PATTERN_OVERRIDE_FILE_NAME))) {
+    return LICENSE_HEADER_DEFAULT_PATTERN;
+  }
+
+  return require(path.resolve(__dirname, LICENSE_HEADER_PATTERN_OVERRIDE_FILE_NAME));
+};
+
 module.exports = {
-  extends: ['plugin:@wso2/internal', 'plugin:@wso2/javascript', 'plugin:@wso2/jest', 'plugin:@wso2/prettier'],
-  plugins: ['@wso2'],
+  env: {
+    node: true,
+    es6: true,
+  },
+  extends: ['eslint:recommended'],
+  parserOptions: {
+    ecmaVersion: 'latest',
+  },
+  plugins: ['header'],
   rules: {
     // Sometimes we need to immediately return from controller functions.
     'consistent-return': 'off',
-  },
+    // Enforce WSO2 license header on files.
+    // https://github.com/Stuk/eslint-plugin-header
+    'header/header': ['warn', 'block', getLicenseHeaderPattern(), 2],
+  }
 };

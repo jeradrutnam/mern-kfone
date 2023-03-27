@@ -28,7 +28,7 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "lint": "npm run lint:es",
-    "lint:es": "eslint . --ext .js,.ts --fix"
+    "lint:es": "eslint . --ext .js,.ts"
   },
   "engines": {
     "node": "18.x"
@@ -44,9 +44,8 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@wso2/eslint-plugin": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/eslint-plugin?39a1b6d84f3ca2a77e3de9363685ca42a4610793",
-    "@wso2/prettier-config": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/prettier-config?39a1b6d84f3ca2a77e3de9363685ca42a4610793",
     "eslint": "^8.36.0",
+    "eslint-plugin-header": "^3.1.1",
     "prettier": "^2.8.7"
   }
 }

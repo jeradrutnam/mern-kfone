@@ -30,9 +30,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@wso2/eslint-plugin": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/eslint-plugin?39a1b6d84f3ca2a77e3de9363685ca42a4610793",
-    "@wso2/prettier-config": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/prettier-config?39a1b6d84f3ca2a77e3de9363685ca42a4610793",
     "eslint": "^8.36.0",
+    "eslint-config-turbo": "^0.0.10",
     "prettier": "^2.8.7",
     "turbo": "latest"
   },
