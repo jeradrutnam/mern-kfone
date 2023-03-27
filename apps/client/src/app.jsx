@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Jerad Rutnam (jeradrutnam.com)
+ * Copyright (c) 2023 Jerad Rutnam (jeradrutnam.com)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,100 +22,99 @@
  * SOFTWARE.
  **/
 
-import React, { useEffect, useState } from "react";
-import { Container, CssBaseline, Button, AppBar, Typography, Grow, Grid, Toolbar } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { useAuthContext } from "@asgardeo/auth-react";
+import React, {useEffect, useState} from 'react';
+import {Container, CssBaseline, Button, AppBar, Typography, Grow, Grid, Toolbar} from '@mui/material';
+import {useDispatch} from 'react-redux';
+import {useAuthContext} from '@asgardeo/auth-react';
 
-import { getPosts } from "./actions/posts";
-import Posts from "./components/posts/posts";
-import Form from "./components/form/form";
-import { classes, StyleWrapper } from "./style";
+import {getPosts} from './actions/posts';
+import Posts from './components/posts/posts';
+import Form from './components/form/form';
+import {classes, StyleWrapper} from './style';
 
 const App = () => {
-    const { state, signIn, signOut, on } = useAuthContext();
-    const [ currentId, setCurrentId ] = useState(null);
-    const dispatch = useDispatch();
+  const {state, signIn, signOut, on} = useAuthContext();
+  const [currentId, setCurrentId] = useState(null);
+  const dispatch = useDispatch();
 
-    const USER_AUTHENTICATED = "userAuthenticated";
+  const USER_AUTHENTICATED = 'userAuthenticated';
 
-    useEffect(() => {
-        dispatch(getPosts());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
 
-    useEffect(() => {
-        if (localStorage.getItem(USER_AUTHENTICATED) === "true") {
-            signIn();
-        }
-    }, []);
+  useEffect(() => {
+    if (localStorage.getItem(USER_AUTHENTICATED) === 'true') {
+      signIn();
+    }
+  }, []);
 
-    on("sign-in", () => {
-        localStorage.setItem(USER_AUTHENTICATED, "true");
-    });
+  on('sign-in', () => {
+    localStorage.setItem(USER_AUTHENTICATED, 'true');
+  });
 
-    const handleLogout = () => {
-        localStorage.setItem(USER_AUTHENTICATED, "false");
-        signOut();
-    };
+  const handleLogout = () => {
+    localStorage.setItem(USER_AUTHENTICATED, 'false');
+    signOut();
+  };
 
-    return (
-        <StyleWrapper>
-            <CssBaseline />
-            <AppBar position="relative" color="default" className={ classes.appBar } >
-                <Toolbar sx={{ flexWrap: 'wrap' }}>
-                    <Typography variant="h6" color="inherit" className={ classes.heading } noWrap sx={{ flexGrow: 1 }}>
-                        My Travel Memories
-                    </Typography>
-                    { !state.isAuthenticated ? (
-                        <Button
-                            className={ classes.buttonSubmit }
-                            variant="outlined"
-                            sx={{ my: 1, mx: 1.5 }}
-                            onClick={ () => signIn() }
-                        >
-                            Sign In
-                        </Button>
-                    ) : (
-                        <>
-                            <nav>
-                                { state.username }
-                            </nav>
-                            <Button
-                                className={ classes.buttonSubmit }
-                                variant="outlined"
-                                sx={{ my: 1, mx: 1.5 }}
-                                onClick={ () => handleLogout() }
-                            >
-                                Logout
-                            </Button>
-                        </>
-                    ) }
-                </Toolbar>
-            </AppBar>
-            <Container maxWidth="lg">
-                <Grow in>
-                    <Grid className={ classes.mainContainer } container justifyContent="space-between" alignItems="stretch" spacing={3}>
-                        { state.isAuthenticated ? (
-                            <>
-                                <Grid item xs={ 12 } sm={ 7 }>
-                                    <Posts setCurrentId={ setCurrentId } sm={ 6 } />
-                                </Grid>
-                                <Grid item xs={ 12 } sm={ 4 }>
-                                    <Form currentId={ currentId } setCurrentId={ setCurrentId } />
-                                </Grid>
-                            </>
-                        ) : (
-                            <>
-                                <Grid item xs={ 12 } sm={ 12 }>
-                                    <Posts setCurrentId={ setCurrentId } sm={ 4 } />
-                                </Grid>
-                            </>
-                        ) }
-                    </Grid>
-                </Grow>
-            </Container>
-        </StyleWrapper>
-    )
+  return (
+    <StyleWrapper>
+      <CssBaseline />
+      <AppBar position="relative" color="default" className={classes.appBar}>
+        <Toolbar sx={{flexWrap: 'wrap'}}>
+          <Typography variant="h6" color="inherit" className={classes.heading} noWrap sx={{flexGrow: 1}}>
+            My Travel Memories
+          </Typography>
+          {!state.isAuthenticated ? (
+            <Button className={classes.buttonSubmit} variant="outlined" sx={{my: 1, mx: 1.5}} onClick={() => signIn()}>
+              Sign In
+            </Button>
+          ) : (
+            <>
+              <nav>{state.username}</nav>
+              <Button
+                className={classes.buttonSubmit}
+                variant="outlined"
+                sx={{my: 1, mx: 1.5}}
+                onClick={() => handleLogout()}
+              >
+                Logout
+              </Button>
+            </>
+          )}
+        </Toolbar>
+      </AppBar>
+      <Container maxWidth="lg">
+        <Grow in>
+          <Grid
+            className={classes.mainContainer}
+            container
+            justifyContent="space-between"
+            alignItems="stretch"
+            spacing={3}
+          >
+            {state.isAuthenticated ? (
+              <>
+                <Grid item xs={12} sm={7}>
+                  <Posts setCurrentId={setCurrentId} sm={6} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Form currentId={currentId} setCurrentId={setCurrentId} />
+                </Grid>
+              </>
+            ) : (
+              <>
+                <Grid item xs={12} sm={12}>
+                  <Posts setCurrentId={setCurrentId} sm={4} />
+                </Grid>
+              </>
+            )}
+          </Grid>
+        </Grow>
+      </Container>
+    </StyleWrapper>
+  );
 };
 
 export default App;

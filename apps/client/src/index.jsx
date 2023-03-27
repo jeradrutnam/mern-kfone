@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Jerad Rutnam (jeradrutnam.com)
+ * Copyright (c) 2023 Jerad Rutnam (jeradrutnam.com)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,33 +22,33 @@
  * SOFTWARE.
  **/
 
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { AuthProvider } from "@asgardeo/auth-react";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose } from "redux";
-import thunk from "redux-thunk";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import {AuthProvider} from '@asgardeo/auth-react';
+import {Provider} from 'react-redux';
+import {createStore, applyMiddleware, compose} from 'redux';
+import thunk from 'redux-thunk';
 
-import App from "./app";
-import "./index.css";
-import reducers from "./reducers";
+import App from './app';
+import './index.css';
+import reducers from './reducers';
 
 const store = createStore(reducers, compose(applyMiddleware(thunk)));
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-    <AuthProvider
-        config={ {
-            signInRedirectURL: `${process.env.REACT_APP_CLIENT_BASE_URL}`,
-            signOutRedirectURL: `${process.env.REACT_APP_CLIENT_BASE_URL}`,
-            clientID: `${process.env.REACT_APP_CLIENT_ID}`,
-            baseUrl: `${process.env.REACT_APP_ASGARDEO_BASE_URL}`,
-            resourceServerURLs: [ `${process.env.REACT_APP_API_ENDPOINT}` ],
-            scope: [ "openid","profile" ]
-        } }
-    >
-        <Provider store={ store }>
-            <App />
-        </Provider>
-    </AuthProvider>
+  <AuthProvider
+    config={{
+      signInRedirectURL: `${process.env.REACT_APP_CLIENT_BASE_URL}`,
+      signOutRedirectURL: `${process.env.REACT_APP_CLIENT_BASE_URL}`,
+      clientID: `${process.env.REACT_APP_CLIENT_ID}`,
+      baseUrl: `${process.env.REACT_APP_ASGARDEO_BASE_URL}`,
+      resourceServerURLs: [`${process.env.REACT_APP_API_ENDPOINT}`],
+      scope: ['openid', 'profile'],
+    }}
+  >
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </AuthProvider>,
 );

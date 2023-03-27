@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022, WSO2 LLC. (https://www.wso2.com). All Rights Reserved.
+ * Copyright (c) 2023, WSO2 LLC. (https://www.wso2.com). All Rights Reserved.
  *
  * WSO2 LLC. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -17,11 +17,6 @@
  */
 
 module.exports = {
-  extends: [
-    'plugin:@wso2/internal',
-    'plugin:@wso2/javascript',
-    'plugin:@wso2/jest',
-    'plugin:@wso2/prettier',
-  ],
+  extends: ['plugin:@wso2/internal', 'plugin:@wso2/javascript', 'plugin:@wso2/jest', 'plugin:@wso2/prettier'],
   plugins: ['@wso2'],
 };

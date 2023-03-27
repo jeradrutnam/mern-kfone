@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Jerad Rutnam (jeradrutnam.com)
+ * Copyright (c) 2023 Jerad Rutnam (jeradrutnam.com)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,29 +22,29 @@
  * SOFTWARE.
  **/
 
-import React from "react";
-import { useSelector } from "react-redux";
-import { Grid, CircularProgress } from "@mui/material";
+import React from 'react';
+import {useSelector} from 'react-redux';
+import {Grid, CircularProgress} from '@mui/material';
 
-import Post from "./post/post";
-import { classes, StyleWrapper } from "./style";
+import Post from './post/post';
+import {classes, StyleWrapper} from './style';
 
-const Posts = ({ setCurrentId, sm }) => {
-    const posts = useSelector((state) => state.posts);
+const Posts = ({setCurrentId, sm}) => {
+  const posts = useSelector(state => state.posts);
 
-    return (
-        !posts.length ? <CircularProgress /> : (
-            <StyleWrapper>
-                <Grid className={ classes.mainContainer } container alignItems="stretch" spacing={ 3 }>
-                    { posts.map((post) => (
-                        <Grid item key={ post._id } xs={ 12 } sm={ sm } className={ classes.mainContainerItem }>
-                            <Post post={ post } setCurrentId={ setCurrentId } />
-                        </Grid>
-                    )) }
-                </Grid>
-            </StyleWrapper>
-        )
-    )
+  return !posts.length ? (
+    <CircularProgress />
+  ) : (
+    <StyleWrapper>
+      <Grid className={classes.mainContainer} container alignItems="stretch" spacing={3}>
+        {posts.map(post => (
+          <Grid item key={post._id} xs={12} sm={sm} className={classes.mainContainerItem}>
+            <Post post={post} setCurrentId={setCurrentId} />
+          </Grid>
+        ))}
+      </Grid>
+    </StyleWrapper>
+  );
 };
 
 export default Posts;
