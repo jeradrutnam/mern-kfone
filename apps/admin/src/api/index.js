@@ -19,7 +19,7 @@
 import {AsgardeoSPAClient} from '@asgardeo/auth-react';
 import axios from 'axios';
 
-const url = `${process.env.REACT_APP_API_ENDPOINT}`;
+const url = `${process.env.REACT_APP_API_ENDPOINT}/posts`;
 
 const spaClient = AsgardeoSPAClient.getInstance();
 

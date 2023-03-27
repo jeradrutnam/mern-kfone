@@ -29,23 +29,17 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 
-const corsConfig = {
+const CORS_CONFIG = {
   credentials: true,
-  origin: `${process.env.CLIENT_BASE_URL}`,
-  methods: ['GET, OPTIONS, PATCH, DELETE, POST, PUT'],
-  allowedHeaders: [
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5,' +
-      'Content-Type, Date, X-Api-Version',
-  ],
+  origin: process.env.CLIENT_BASE_URL.split(','),
 };
 
-// app.options('*', cors(corsConfig));
-app.use(bodyParser.json({limit: '30mb', extended: true}));
-app.use(bodyParser.urlencoded({limit: '30mb', extended: true}));
-app.use(cors({credentials: true, origin: `${process.env.CLIENT_BASE_URL}`}));
+app.use(bodyParser.json({extended: true, limit: '30mb'}));
+app.use(bodyParser.urlencoded({extended: true, limit: '30mb'}));
+app.use(cors(CORS_CONFIG));
 app.use('/posts', postRoutes);
 
-app.get('/', (req, res) => {
+app.get('/', (_, res) => {
   res.send(`Kfone Services API v1.0.`);
 });
 
