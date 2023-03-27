@@ -18,15 +18,16 @@
 
 import express from 'express';
 import {createPromotion, deletePromotion, getPromotions, updatePromotion} from '../controllers/promotions.js';
+import {isValidAccessToken} from '../middlewares/auth.js';
 
 // Create a new Router instance from the Express.js package
 const router = express.Router();
 
 // Define the routes for the items API
 router.get('/', getPromotions); // Get all items
-router.post('/', createPromotion); // Create a new item
-router.put('/:id', updatePromotion); // Update an existing item
-router.patch('/:id', updatePromotion); // Partially update an existing item
-router.delete('/:id', deletePromotion); // Delete an existing item
+router.post('/', isValidAccessToken, createPromotion); // Create a new item
+router.put('/:id', isValidAccessToken, updatePromotion); // Update an existing item
+router.patch('/:id', isValidAccessToken, updatePromotion); // Partially update an existing item
+router.delete('/:id', isValidAccessToken, deletePromotion); // Delete an existing item
 
 export default router;

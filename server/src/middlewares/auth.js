@@ -18,7 +18,12 @@
 
 import fetch from 'node-fetch';
 
-const introspect = async asgardeoAccessToken => {
+/**
+ * Introspects an Asgardeo access token to check if it is valid
+ * @param {string} asgardeoAccessToken - The Asgardeo access token to introspect
+ * @returns {boolean} Returns true if the access token is valid, false otherwise
+ */
+const introspectAccessToken = async asgardeoAccessToken => {
   const requestOptions = {
     credentials: 'include',
     headers: {
@@ -29,26 +34,32 @@ const introspect = async asgardeoAccessToken => {
     method: 'POST',
   };
 
-  const tokenExchangeResponse = await fetch(
+  const tokenIntrospectionResponse = await fetch(
     `${process.env.ASGARDEO_BASE_URL}/oauth2/introspect?token=${asgardeoAccessToken}`,
     requestOptions,
   );
 
-  if (!tokenExchangeResponse.ok) {
-    throw new Error('Failed introspecting token');
+  if (!tokenIntrospectionResponse.ok) {
+    throw new Error('Failed to introspect access token');
   }
 
-  const responseBody = await tokenExchangeResponse.json();
+  const responseBody = await tokenIntrospectionResponse.json();
 
   if (!responseBody?.active) {
-    // Client should try refreshing the token
+    // The token is invalid, client should try refreshing the token
     return false;
   }
 
+  // The token is valid
   return true;
 };
 
-const extractAccessToken = req => {
+/**
+ * Extracts an Asgardeo access token from the request headers
+ * @param {object} req - The request object
+ * @returns {string|null} Returns the Asgardeo access token or null if it cannot be extracted
+ */
+const extractAsgardeoAccessToken = req => {
   if (!req?.headers?.authorization || !req.headers.authorization.split(' ')[1]) {
     return null;
   }
@@ -59,14 +70,26 @@ const extractAccessToken = req => {
   if (asgardeoAccessToken) {
     return asgardeoAccessToken;
   }
+
   return null;
 };
 
-export const isValidAccessToken = async (req, res) => {
-  const validAccessToken = await introspect(extractAccessToken(req));
+/**
+ * Middleware that checks if the Asgardeo access token is valid
+ * @param {object} req - The request object
+ * @param {object} res - The response object
+ * @param {function} next - The next middleware function
+ * @returns {void}
+ */
+export const isValidAccessToken = async (req, res, next) => {
+  const asgardeoAccessToken = extractAsgardeoAccessToken(req);
+  const isAccessTokenValid = await introspectAccessToken(asgardeoAccessToken);
 
-  if (validAccessToken) {
-} else {
+  if (isAccessTokenValid) {
+    // The access token is valid, call the next middleware function
+    next();
+  } else {
+    // The access token is invalid, return a 401 Unauthorized error
     res.status(401).send('Invalid Access Token');
   }
 };

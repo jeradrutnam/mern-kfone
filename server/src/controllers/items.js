@@ -18,7 +18,6 @@
 
 import mongoose from 'mongoose';
 import {v4 as uuidv4} from 'uuid';
-import {isValidAccessToken} from '../middlewares/auth.js';
 import Item from '../models/item.js';
 
 /**
@@ -49,9 +48,6 @@ export const getItems = async (req, res) => {
  * @returns {object} Returns the newly created item with a 201 status code on success or a 409 status code on failure
  */
 export const createItem = async (req, res) => {
-  // Check if the access token is valid
-  await isValidAccessToken(req, res);
-
   // Extract the post data from the request body
   const post = req.body;
 
@@ -83,9 +79,6 @@ export const createItem = async (req, res) => {
  */
 export const updateItem = async (req, res) => {
   try {
-    // Check if the access token is valid
-    await isValidAccessToken(req, res);
-
     // Extract the item ID from the request params
     const {id: _id} = req.params;
     // Extract the item data from the request body
@@ -136,9 +129,6 @@ export const updateItem = async (req, res) => {
  */
 export const deleteItem = async (req, res) => {
   try {
-    // Check if the access token is valid
-    await isValidAccessToken(req, res);
-
     // Extract the item ID from the request params
     const {id: _id} = req.params;
 

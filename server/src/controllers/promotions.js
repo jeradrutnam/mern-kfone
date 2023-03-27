@@ -18,7 +18,6 @@
 
 import mongoose from 'mongoose';
 import {v4 as uuidv4} from 'uuid';
-import {isValidAccessToken} from '../middlewares/auth.js';
 import Promotion from '../models/Promotion.js';
 
 /**
@@ -49,9 +48,6 @@ export const getPromotions = async (req, res) => {
  * @returns {object} Returns the newly created promotion with a 201 status code on success or a 500 status code on failure
  */
 export const createPromotion = async (req, res) => {
-  // Check if the access token is valid
-  await isValidAccessToken(req, res);
-
   // Extract the post data from the request body
   const post = req.body;
 
@@ -83,9 +79,6 @@ export const createPromotion = async (req, res) => {
  */
 export const updatePromotion = async (req, res) => {
   try {
-    // Check if the access token is valid
-    await isValidAccessToken(req, res);
-
     // Extract the promotion ID from the request params
     const {id: _id} = req.params;
     // Extract the promotion data from the request body
@@ -136,9 +129,6 @@ export const updatePromotion = async (req, res) => {
  */
 export const deletePromotion = async (req, res) => {
   try {
-    // Check if the access token is valid
-    await isValidAccessToken(req, res);
-
     // Extract the promotion ID from the request params
     const {id: _id} = req.params;
 

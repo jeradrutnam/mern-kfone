@@ -17,15 +17,15 @@
  */
 
 import express from 'express';
-
 import {getPosts, createPost, updatePost, deletePost, likePost} from '../controllers/posts.js';
+import {isValidAccessToken} from '../middlewares/auth.js';
 
 const router = express.Router();
 
 router.get('/', getPosts);
-router.post('/', createPost);
-router.patch('/:id', updatePost);
-router.delete('/:id', deletePost);
-router.patch('/:id/like', likePost);
+router.post('/', isValidAccessToken, createPost);
+router.patch('/:id', isValidAccessToken, updatePost);
+router.delete('/:id', isValidAccessToken, deletePost);
+router.patch('/:id/like', isValidAccessToken, likePost);
 
 export default router;

@@ -17,7 +17,6 @@
  */
 
 import mongoose from 'mongoose';
-import {isValidAccessToken} from '../middlewares/auth.js';
 import PostMessage from '../models/postMessage.js';
 
 export const getPosts = async (req, res) => {
@@ -31,8 +30,6 @@ export const getPosts = async (req, res) => {
 };
 
 export const createPost = async (req, res) => {
-  await isValidAccessToken(req, res);
-
   const post = req.body;
   const newPost = new PostMessage(post);
 
@@ -46,8 +43,6 @@ export const createPost = async (req, res) => {
 };
 
 export const updatePost = async (req, res) => {
-  await isValidAccessToken(req, res);
-
   const {id: _id} = req.params;
   const post = req.body;
 
@@ -59,8 +54,6 @@ export const updatePost = async (req, res) => {
 };
 
 export const deletePost = async (req, res) => {
-  await isValidAccessToken(req, res);
-
   const {id: _id} = req.params;
   const post = req.body;
 
@@ -72,8 +65,6 @@ export const deletePost = async (req, res) => {
 };
 
 export const likePost = async (req, res) => {
-  await isValidAccessToken(req, res);
-
   const {id: _id} = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post with that id.');

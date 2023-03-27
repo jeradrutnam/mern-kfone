@@ -18,15 +18,16 @@
 
 import express from 'express';
 import {createItem, deleteItem, getItems, updateItem} from '../controllers/items.js';
+import {isValidAccessToken} from '../middlewares/auth.js';
 
 // Create a new Router instance from the Express.js package
 const router = express.Router();
 
 // Define the routes for the items API
 router.get('/', getItems); // Get all items
-router.post('/', createItem); // Create a new item
-router.put('/:id', updateItem); // Update an existing item
-router.patch('/:id', updateItem); // Partially update an existing item
-router.delete('/:id', deleteItem); // Delete an existing item
+router.post('/', isValidAccessToken, createItem); // Create a new item
+router.put('/:id', isValidAccessToken, updateItem); // Update an existing item
+router.patch('/:id', isValidAccessToken, updateItem); // Partially update an existing item
+router.delete('/:id', isValidAccessToken, deleteItem); // Delete an existing item
 
 export default router;
