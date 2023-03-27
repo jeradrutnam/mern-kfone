@@ -60,3 +60,5 @@ if (process.env.MONGODB_URI) {
 } else {
   console.log("Couldn't find MONGODB_URI in your environment.");
 }
+
+export default app;
