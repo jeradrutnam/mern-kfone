@@ -17,62 +17,8 @@
  */
 
 import mongoose from 'mongoose';
-import fetch from 'node-fetch';
-
+import {isValidAccessToken} from '../middlewares/auth.js';
 import PostMessage from '../models/postMessage.js';
-
-const introspect = async asgardeoAccessToken => {
-  const requestOptions = {
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      accept: 'application/json',
-      Authorization: `Basic ${Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString('base64')}`,
-    },
-    method: 'POST',
-  };
-
-  const tokenExchangeResponse = await fetch(
-    `${process.env.ASGARDEO_BASE_URL}/oauth2/introspect?token=${asgardeoAccessToken}`,
-    requestOptions,
-  );
-
-  if (!tokenExchangeResponse.ok) {
-    throw new Error('Failed introspecting token');
-  }
-
-  const responseBody = await tokenExchangeResponse.json();
-
-  if (!responseBody?.active) {
-    // Client should try refreshing the token
-    return false;
-  }
-
-  return true;
-};
-
-const extractAccessToken = req => {
-  if (!req?.headers?.authorization || !req.headers.authorization.split(' ')[1]) {
-    return null;
-  }
-
-  const bearerToken = req.headers.authorization.split(' ');
-  const asgardeoAccessToken = bearerToken.length > 1 ? bearerToken[1] : bearerToken[0];
-
-  if (asgardeoAccessToken) {
-    return asgardeoAccessToken;
-  }
-  return null;
-};
-
-const isValidAccessToken = async (req, res) => {
-  const validAccessToken = await introspect(extractAccessToken(req));
-
-  if (validAccessToken) {
-  } else {
-    res.status(401).send('Invalid Access Token');
-  }
-};
 
 export const getPosts = async (req, res) => {
   try {
