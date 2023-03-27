@@ -33,9 +33,9 @@ export const fetchPosts = () => axios.get(url);
 
 export const createPost = newPost => {
   const requestConfig = {
+    data: newPost,
     method: 'POST',
     url,
-    data: newPost,
   };
 
   return doHTTPRequest(requestConfig);
@@ -43,9 +43,9 @@ export const createPost = newPost => {
 
 export const updatePost = (id, updatedPost) => {
   const requestConfig = {
+    data: updatedPost,
     method: 'PATCH',
     url: `${url}/${id}`,
-    data: updatedPost,
   };
 
   return doHTTPRequest(requestConfig);

@@ -1,10 +1,10 @@
 module.exports = {
   root: true,
-  plugins: ['@brionmario'],
+  plugins: ['@wso2'],
   extends: [
     'turbo',
-    'plugin:@brionmario/internal',
-    'plugin:@brionmario/prettier',
-    'plugin:@brionmario/typescript',
+    'plugin:@wso2/internal',
+    'plugin:@wso2/prettier',
+    'plugin:@wso2/typescript',
   ]
 };

@@ -16,16 +16,16 @@
  * under the License.
  */
 
-Object.defineProperty(window, 'matchMedia', {
-  value: jest.fn().mockImplementation(query => ({
-    addEventListener: jest.fn(),
-    addListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    matches: false,
-    media: query,
-    onchange: null,
-    removeEventListener: jest.fn(),
-    removeListener: jest.fn(),
-  })),
-  writable: true,
-});
+import express from 'express';
+
+import {getPosts, createPost, updatePost, deletePost, likePost} from '../controllers/posts.js';
+
+const router = express.Router();
+
+router.get('/', getPosts);
+router.post('/', createPost);
+router.patch('/:id', updatePost);
+router.delete('/:id', deletePost);
+router.patch('/:id/like', likePost);
+
+export default router;

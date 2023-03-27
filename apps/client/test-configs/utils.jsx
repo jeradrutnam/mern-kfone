@@ -36,7 +36,7 @@ const render = (ui, options) => {
     return <ThemeProvider theme={{}}>{children}</ThemeProvider>;
   };
 
-  return rtlRender(ui, {wrapper: Wrapper as any, ...options});
+  return rtlRender(ui, {wrapper: Wrapper, ...options});
 };
 
 // re-export everything

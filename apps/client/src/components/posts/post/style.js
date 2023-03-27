@@ -21,17 +21,17 @@ import {styled} from '@mui/material/styles';
 const PREFIX = 'custom';
 
 export const classes = {
-  media: `${PREFIX}-media`,
   border: `${PREFIX}-border`,
-  fullHeightCard: `${PREFIX}-full-height-card`,
   card: `${PREFIX}-card`,
-  overlay: `${PREFIX}-overlay`,
-  overlay2: `${PREFIX}-overlay2`,
-  grid: `${PREFIX}-grid`,
-  details: `${PREFIX}-details`,
-  title: `${PREFIX}-title`,
   cardActions: `${PREFIX}-card-actions`,
   cardAdminActions: `${PREFIX}-card-admin-actions`,
+  details: `${PREFIX}-details`,
+  fullHeightCard: `${PREFIX}-full-height-card`,
+  grid: `${PREFIX}-grid`,
+  media: `${PREFIX}-media`,
+  overlay: `${PREFIX}-overlay`,
+  overlay2: `${PREFIX}-overlay2`,
+  title: `${PREFIX}-title`,
 };
 
 export const StyleWrapper = styled('div')(({theme}) => ({
@@ -41,10 +41,10 @@ export const StyleWrapper = styled('div')(({theme}) => ({
     },
   },
   [`& .${classes.media}`]: {
+    backgroundBlendMode: 'darken',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     height: 0,
     paddingTop: '56.25%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    backgroundBlendMode: 'darken',
   },
   [`& .${classes.border}`]: {
     border: 'solid',
@@ -53,24 +53,24 @@ export const StyleWrapper = styled('div')(({theme}) => ({
     height: '100%',
   },
   [`& .${classes.card}`]: {
+    borderRadius: '15px',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    borderRadius: '15px',
     height: '100%',
+    justifyContent: 'space-between',
     position: 'relative',
   },
   [`& .${classes.overlay}`]: {
+    color: 'white',
+    left: '20px',
     position: 'absolute',
     top: '20px',
-    left: '20px',
-    color: 'white',
   },
   [`& .${classes.overlay2}`]: {
-    position: 'absolute',
-    top: '20px',
-    right: '20px',
     color: 'white',
+    position: 'absolute',
+    right: '20px',
+    top: '20px',
   },
   [`& .${classes.grid}`]: {
     display: 'flex',
@@ -84,9 +84,9 @@ export const StyleWrapper = styled('div')(({theme}) => ({
     padding: '0 16px',
   },
   [`& .${classes.cardActions}`]: {
-    padding: '0 16px 8px 16px',
     display: 'flex',
     justifyContent: 'space-between',
+    padding: '0 16px 8px 16px',
   },
   [`& .${classes.cardAdminActions}`]: {
     color: 'white',

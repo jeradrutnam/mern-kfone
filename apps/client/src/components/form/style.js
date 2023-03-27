@@ -21,12 +21,12 @@ import {styled} from '@mui/material/styles';
 const PREFIX = 'custom';
 
 export const classes = {
-  root: `${PREFIX}-root`,
-  paper: `${PREFIX}-paper`,
-  form: `${PREFIX}-form`,
-  fileInput: `${PREFIX}-file-input`,
-  buttonSubmit: `${PREFIX}-button-submit`,
   buttonClear: `${PREFIX}-button-clear`,
+  buttonSubmit: `${PREFIX}-button-submit`,
+  fileInput: `${PREFIX}-file-input`,
+  form: `${PREFIX}-form`,
+  paper: `${PREFIX}-paper`,
+  root: `${PREFIX}-root`,
 };
 
 export const StyleWrapper = styled('div')(({theme}) => ({
@@ -42,8 +42,8 @@ export const StyleWrapper = styled('div')(({theme}) => ({
     justifyContent: 'center',
   },
   [`& .${classes.fileInput}`]: {
-    width: '97%',
     margin: '10px 0',
+    width: '97%',
   },
   [`& .${classes.buttonSubmit}`]: {
     margin: 8,

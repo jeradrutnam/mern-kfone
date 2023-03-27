@@ -21,16 +21,16 @@ import {styled} from '@mui/material/styles';
 const PREFIX = 'custom';
 
 export const classes = {
+  actionDiv: `${PREFIX}-action-div`,
   mainContainer: `${PREFIX}-main-container`,
   mainContainerItem: `${PREFIX}-main-container-item`,
   smMargin: `${PREFIX}-sm-margin`,
-  actionDiv: `${PREFIX}-action-div`,
 };
 
 export const StyleWrapper = styled('div')(({theme}) => ({
   [`& .${classes.mainContainer}`]: {
-    display: 'flex',
     alignItems: 'center',
+    display: 'flex',
     [`& .${classes.mainContainerItem}`]: {
       [theme.breakpoints.down('sm')]: {
         width: '100%',

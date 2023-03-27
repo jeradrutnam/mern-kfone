@@ -5,7 +5,7 @@
   "description": "The Node.js server for the Kfone MERN sample.",
   "author": "WSO2",
   "license": "Apache-2.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "type": "module",
   "bugs": {
     "url": "https://github.com/jeradrutnam/mern-kfone/issues"
@@ -25,8 +25,8 @@
     "express"
   ],
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "lint": "npm run lint:es",
     "lint:es": "eslint . --ext .js,.ts --fix"
   },

@@ -16,16 +16,24 @@
  * under the License.
  */
 
-Object.defineProperty(window, 'matchMedia', {
-  value: jest.fn().mockImplementation(query => ({
-    addEventListener: jest.fn(),
-    addListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-    matches: false,
-    media: query,
-    onchange: null,
-    removeEventListener: jest.fn(),
-    removeListener: jest.fn(),
-  })),
-  writable: true,
+import mongoose from 'mongoose';
+
+const postSchema = mongoose.Schema({
+  createdAt: {
+    default: new Date(),
+    type: Date,
+  },
+  creator: String,
+  likeCount: {
+    default: 0,
+    type: Number,
+  },
+  message: String,
+  selectedFile: String,
+  tags: [String],
+  title: String,
 });
+
+const PostMessage = mongoose.model('PostMessage', postSchema);
+
+export default PostMessage;
