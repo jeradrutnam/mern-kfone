@@ -50,6 +50,7 @@ app.get('/', (req, res) => {
 });
 
 if (process.env.MONGODB_URI) {
+  mongoose.set('strictQuery', false);
   mongoose
     .connect(process.env.MONGODB_URI)
     .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
