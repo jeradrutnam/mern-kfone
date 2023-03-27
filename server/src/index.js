@@ -46,7 +46,7 @@ app.use(cors({credentials: true, origin: `${process.env.CLIENT_BASE_URL}`}));
 app.use('/posts', postRoutes);
 
 app.get('/', (req, res) => {
-  res.send(`My Travel Memories API v1.0.`);
+  res.send(`Kfone Services API v1.0.`);
 });
 
 if (process.env.MONGODB_URI) {
