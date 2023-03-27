@@ -22,7 +22,10 @@ import {getPosts, createPost, updatePost, deletePost, likePost} from '../control
 
 const router = express.Router();
 
-router.get('/', getPosts);
+// router.get('/', getPosts);
+router.get('/', (_, res) => {
+    res.send(`Testing`);
+});
 router.post('/', createPost);
 router.patch('/:id', updatePost);
 router.delete('/:id', deletePost);
