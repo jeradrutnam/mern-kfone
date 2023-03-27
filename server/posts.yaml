@@ -2,9 +2,9 @@ openapi: 3.0.0
 servers:
   - url: ''
 info:
-  description: OpenAPI for MERN learn server app
+  description: OpenAPI for Kfone server app
   version: 1.0.0
-  title: OpenAPI MERN Learn Server
+  title: OpenAPI Kfone Server
   license:
     name: Apache-2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
