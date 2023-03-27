@@ -64,7 +64,7 @@ const App = () => {
       <AppBar position="relative" color="default" className={classes.appBar}>
         <Toolbar sx={{flexWrap: 'wrap'}}>
           <Typography variant="h6" color="inherit" className={classes.heading} noWrap sx={{flexGrow: 1}}>
-            My Travel Memories
+            Kfone - Your digital world tomorrow
           </Typography>
           {!state.isAuthenticated ? (
             <Button className={classes.buttonSubmit} variant="outlined" sx={{my: 1, mx: 1.5}} onClick={() => signIn()}>
