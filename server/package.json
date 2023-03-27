@@ -40,7 +40,8 @@
     "express": "^4.18.2",
     "mongoose": "^6.7.2",
     "node-fetch": "^3.3.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@wso2/eslint-plugin": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/eslint-plugin?39a1b6d84f3ca2a77e3de9363685ca42a4610793",

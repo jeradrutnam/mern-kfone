@@ -21,7 +21,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import postRoutes from './routes/posts.js';
+import postRouter from './routes/posts.js';
+import itemsRouter from './routes/items.js';
 
 dotenv.config();
 
@@ -37,7 +38,9 @@ const CORS_CONFIG = {
 app.use(bodyParser.json({extended: true, limit: '30mb'}));
 app.use(bodyParser.urlencoded({extended: true, limit: '30mb'}));
 app.use(cors(CORS_CONFIG));
-app.use('/posts', postRoutes);
+
+app.use('/posts', postRouter);
+app.use('/items', itemsRouter);
 
 app.get('/', (_, res) => {
   res.send(`Kfone Services API v1.0.`);
