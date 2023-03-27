@@ -21,13 +21,13 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-
 import postRoutes from './routes/posts.js';
+
+dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
 const app = express();
-dotenv.config();
 
 const corsConfig = {
   credentials: true,

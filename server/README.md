@@ -37,7 +37,7 @@ cp .env.example .env.local
 
 ```bash
 # The port number on which the client application will run
-PORT=3000
+PORT=3002
 
 # The endpoint of the server's API that the client application will communicate with
 # E.g., http://localhost:5000/posts
