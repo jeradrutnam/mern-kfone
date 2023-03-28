@@ -28,10 +28,7 @@ import {fetchPromotions} from '../api/promotions';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
 import EditIcon from '@mui/icons-material/Edit';
 
 import TextField from '@mui/material/TextField';
@@ -43,9 +40,25 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Button from '@mui/material/Button';
+
+import Autocomplete from '@mui/material/Autocomplete';
+import Stack from '@mui/material/Stack';
+import dayjs from 'dayjs';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { SingleInputDateRangeField } from '@mui/x-date-pickers-pro/SingleInputDateRangeField';
+import { MultiInputDateRangeField } from '@mui/x-date-pickers-pro/MultiInputDateRangeField';
+import { SingleInputTimeRangeField } from '@mui/x-date-pickers-pro/SingleInputTimeRangeField';
+import { MultiInputTimeRangeField } from '@mui/x-date-pickers-pro/MultiInputTimeRangeField';
+import { MultiInputDateTimeRangeField } from '@mui/x-date-pickers-pro/MultiInputDateTimeRangeField';
+import { SingleInputDateTimeRangeField } from '@mui/x-date-pickers-pro/SingleInputDateTimeRangeField';
+
+
+const date1 = dayjs('2022-04-17T15:30');
+const date2 = dayjs('2022-04-21T18:30');
 
 const PromotionsPage = () => {
   const [promotions, setPromotions] = useState([]);
@@ -60,6 +73,15 @@ const PromotionsPage = () => {
       }
     })();
   }, []);
+
+  
+  const devices = [
+    { device: 'iPhone 14', brand: 'Apple' },
+    { device: 'iPhone 14', brand: 'Apple' },
+    { device: 'iPhone 14', brand: 'Apple' },
+    { device: 'iPhone 14', brand: 'Apple' },
+    { device: 'iPhone 14', brand: 'Apple' },
+  ]
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -138,19 +160,54 @@ const PromotionsPage = () => {
               <div>
                 <TextField fullWidth required id="outlined-required" label="Promo Code" />,
                 <TextField fullWidth multiline maxRows={4} id="outlined-required" label="Description" />,
-                <FormControl fullWidth>
-                  <InputLabel htmlFor="outlined-adornment-amount">Price</InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-amount"
-                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                    label="Amount"
-                  />
-                </FormControl>
-                ,
-                <Button variant="outlined" startIcon={<PhotoCamera />} component="label">
-                  Upload Image
-                  <input hidden accept="image/*" multiple type="file" />
-                </Button>
+                <TextField
+                    required
+                    fullWidth
+                    label="Discount"
+                    id="outlined-start-adornment"
+                    InputProps={{
+                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                    }}
+                    />,
+
+                    <Stack spacing={3}>
+                       <Autocomplete
+                            required
+                            multiple
+                            id="tags-outlined"
+                            options={devices}
+                            getOptionLabel={(option) => option.device}
+                            defaultValue={[devices[2]]}
+                            filterSelectedOptions
+                            renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Select Devices"
+                                placeholder="Favorites"
+                            />
+                            )}
+                        />
+                    </Stack>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer
+                        components={[
+                        'SingleInputDateRangeField',
+                        'MultiInputDateRangeField',
+                        'SingleInputTimeRangeField',
+                        'MultiInputTimeRangeField',
+                        'MultiInputDateTimeRangeField',
+                        'SingleInputDateTimeRangeField',
+                        ]}
+                    >
+                    <DemoItem
+                        label="Promotion Time Period"
+                        component="MultiInputDateTimeRangeField"
+                        >
+                        <MultiInputDateTimeRangeField defaultValue={[date1, date2]} />
+                        </DemoItem>
+                    </DemoContainer>
+                    </LocalizationProvider>
+
               </div>
               <Divider variant="fullWidth" />
               <Button style={modalButton} variant="contained">
@@ -192,6 +249,77 @@ const PromotionsPage = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        <Modal
+            open={openEdit}
+            onClose={handleEditClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={modalStyle}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Edit Promotion
+              </Typography>
+              <Typography id="modal-modal-description" sx={{mt: 2}}>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              </Typography>
+              <div>
+                <TextField fullWidth required id="outlined-required" label="Promo Code" />,
+                <TextField fullWidth multiline maxRows={4} id="outlined-required" label="Description" />,
+                <TextField
+                    required
+                    fullWidth
+                    label="Discount"
+                    id="outlined-start-adornment"
+                    InputProps={{
+                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                    }}
+                    />,
+
+                    <Stack spacing={3}>
+                       <Autocomplete
+                            required
+                            multiple
+                            id="tags-outlined"
+                            options={devices}
+                            getOptionLabel={(option) => option.device}
+                            defaultValue={[devices[2]]}
+                            filterSelectedOptions
+                            renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Select Devices"
+                                placeholder="Favorites"
+                            />
+                            )}
+                        />
+                    </Stack>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer
+                        components={[
+                        'SingleInputDateRangeField',
+                        'MultiInputDateRangeField',
+                        'SingleInputTimeRangeField',
+                        'MultiInputTimeRangeField',
+                        'MultiInputDateTimeRangeField',
+                        'SingleInputDateTimeRangeField',
+                        ]}
+                    >
+                    <DemoItem
+                        label="Promotion Time Period"
+                        component="MultiInputDateTimeRangeField"
+                        >
+                        <MultiInputDateTimeRangeField defaultValue={[date1, date2]} />
+                        </DemoItem>
+                    </DemoContainer>
+                    </LocalizationProvider>
+
+              </div>
+              <Divider variant="fullWidth" />
+              <Button style={modalButton} variant="contained">
+                Add
+              </Button>
+            </Box>
+          </Modal>
       </div>
     </Box>
   );
