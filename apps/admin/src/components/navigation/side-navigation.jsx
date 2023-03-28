@@ -24,7 +24,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
 import useAccessControl from '../../hooks/use-access-control';
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from 'react-router-dom';
 
 export const SideNavigation = () => {
   const {access} = useAccessControl();

@@ -27,8 +27,8 @@ const endpointConfig = {
       devices: `${apiBaseUrl}/items`,
       me: `${asgardeoBaseUrl}/scim2/Me`,
       promotions: `${apiBaseUrl}/promotions`,
-    }
-  }
+    },
+  },
 };
 
 export default endpointConfig;

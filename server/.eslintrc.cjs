@@ -80,14 +80,15 @@ module.exports = {
   extends: ['eslint:recommended'],
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
   },
-  plugins: ['header'],
+  plugins: ['header', 'prettier'],
   rules: {
     // Sometimes we need to immediately return from controller functions.
     'consistent-return': 'off',
     // Enforce WSO2 license header on files.
     // https://github.com/Stuk/eslint-plugin-header
     'header/header': ['warn', 'block', getLicenseHeaderPattern(), 2],
-  }
+    'prettier/prettier': 'error',
+  },
 };

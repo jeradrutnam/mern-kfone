@@ -16,9 +16,8 @@
  * under the License.
  */
 
-import React, {} from 'react';
+import React from 'react';
 import {CssBaseline} from '@mui/material';
-import {useAuthContext} from '@asgardeo/auth-react';
 import {StyleWrapper} from './style';
 import DashboardLayout from './layouts/dashboard-layout';
 import {Route, Routes, BrowserRouter as Router} from 'react-router-dom';
@@ -27,31 +26,28 @@ import DevicesPage from './pages/devices-page';
 import ServicesPage from './pages/services-page';
 import PromotionsPage from './pages/promotions-page';
 import AccessControlProvider from './providers/access-control-provider';
+import {ThemeProvider} from '@mui/material';
+import {theme} from './style';
 
 const App = () => {
-  const {state} = useAuthContext();
-  const {isAuthenticated, isLoading} = state;
-
-  // if (isLoading) {
-  //   return <PageSpinner />;
-  // }
-
   return (
-    <AccessControlProvider>
-      <StyleWrapper>
-        <CssBaseline />
-        <Router>
-          <Routes>
-            <Route path="/" element={<DashboardLayout />}>
-              <Route index element={<DashboardPage />} />
-              <Route path="devices" element={<DevicesPage />} />
-              <Route path="services" element={<ServicesPage />} />
-              <Route path="promotions" element={<PromotionsPage />} />
-            </Route>
-          </Routes>
-        </Router>
-      </StyleWrapper>
-    </AccessControlProvider>
+    <ThemeProvider theme={theme}>
+      <AccessControlProvider>
+        <StyleWrapper>
+          <CssBaseline />
+          <Router>
+            <Routes>
+              <Route path="/" element={<DashboardLayout />}>
+                <Route index element={<DashboardPage />} />
+                <Route path="devices" element={<DevicesPage />} />
+                <Route path="services" element={<ServicesPage />} />
+                <Route path="promotions" element={<PromotionsPage />} />
+              </Route>
+            </Routes>
+          </Router>
+        </StyleWrapper>
+      </AccessControlProvider>
+    </ThemeProvider>
   );
 };
 

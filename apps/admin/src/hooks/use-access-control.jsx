@@ -16,14 +16,14 @@
  * under the License.
  */
 
-import {useContext} from "react";
-import AccessControlContext from "../contexts/access-control-context";
+import {useContext} from 'react';
+import AccessControlContext from '../contexts/access-control-context';
 
 const useAccessControl = () => {
   const accessControl = useContext(AccessControlContext);
 
   if (!accessControl) {
-    throw new Error("useAccessControl must be used within an AccessControlProvider");
+    throw new Error('useAccessControl must be used within an AccessControlProvider');
   }
 
   return accessControl;

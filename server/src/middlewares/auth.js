@@ -62,7 +62,6 @@ const introspectAccessToken = async asgardeoAccessToken => {
  * @returns {boolean} Returns true if the access token is valid, false otherwise
  */
 const validateJWT = async asgardeoAccessToken => {
-
   if (!asgardeoAccessToken) {
     return false;
   }

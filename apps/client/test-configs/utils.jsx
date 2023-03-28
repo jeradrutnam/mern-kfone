@@ -30,7 +30,7 @@ import {RenderResult, render as rtlRender, RenderOptions} from '@testing-library
  * @return {RenderResult}
  */
 const render = (ui, options) => {
-  const Wrapper = (props) => {
+  const Wrapper = props => {
     const {children} = props;
 
     return <ThemeProvider theme={{}}>{children}</ThemeProvider>;

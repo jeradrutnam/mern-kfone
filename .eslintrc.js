@@ -19,4 +19,7 @@
 module.exports = {
   root: true,
   extends: ["turbo"],
+  rules: {
+    'turbo/no-undeclared-env-vars': 'off'
+  }
 };

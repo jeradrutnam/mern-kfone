@@ -69,12 +69,20 @@ const App = () => {
             </Typography>
             {!state.isAuthenticated ? (
               <>
-                <Button className={classes.buttonSubmit} variant="outlined" sx={{my: 1, mx: 1.5}} 
-                  href={`${process.env.REACT_APP_ASGARDEO_SIGNUP_URL}`}>
+                <Button
+                  className={classes.buttonSubmit}
+                  variant="outlined"
+                  sx={{my: 1, mx: 1.5}}
+                  href={`${process.env.REACT_APP_ASGARDEO_SIGNUP_URL}`}
+                >
                   Register
                 </Button>
-                <Button className={classes.buttonSubmit} variant="contained" sx={{my: 1, mx: 1.5}} 
-                  onClick={() => signIn()}>
+                <Button
+                  className={classes.buttonSubmit}
+                  variant="contained"
+                  sx={{my: 1, mx: 1.5}}
+                  onClick={() => signIn()}
+                >
                   Sign In
                 </Button>
               </>

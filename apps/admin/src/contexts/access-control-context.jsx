@@ -16,9 +16,9 @@
  * under the License.
  */
 
-import { createContext } from "react";
+import {createContext} from 'react';
 
 const AccessControlContext = createContext(undefined);
-AccessControlContext.displayName = "AccessControlContext";
+AccessControlContext.displayName = 'AccessControlContext';
 
 export default AccessControlContext;

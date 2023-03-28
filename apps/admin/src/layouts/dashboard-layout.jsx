@@ -35,8 +35,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Tooltip from '@mui/material/Tooltip';
 import SideNavigation from '../components/navigation/side-navigation';
-import { useAuthContext } from '@asgardeo/auth-react';
-import { Outlet } from 'react-router-dom';
+import {useAuthContext} from '@asgardeo/auth-react';
+import {Outlet} from 'react-router-dom';
+import PageSpinner from '../components/spinners/page-spinner';
 
 const drawerWidth = 240;
 
@@ -84,7 +85,7 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: prop => prop !== 'open'})((
 
 const DashboardLayout = () => {
   const {state, signOut} = useAuthContext();
-  const {username} = state;
+  const {isAuthenticated, isLoading, username} = state;
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -92,7 +93,7 @@ const DashboardLayout = () => {
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenUserMenu = (event) => {
+  const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
   };
 
@@ -103,6 +104,10 @@ const DashboardLayout = () => {
   const handleLogout = () => {
     signOut();
   };
+
+  if (isLoading || !isAuthenticated) {
+    return <PageSpinner />;
+  }
 
   return (
     <Box sx={{display: 'flex'}}>
@@ -128,14 +133,16 @@ const DashboardLayout = () => {
           <Typography component="h1" variant="h6" color="inherit" noWrap sx={{flexGrow: 1}}>
             Kfone - Manage Services
           </Typography>
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{flexGrow: 0}}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar sx={{ bgcolor: 'purple' }} alt={username}>{username.charAt(0).toUpperCase()}</Avatar>
+              <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                <Avatar sx={{bgcolor: 'purple'}} alt={username}>
+                  {username.charAt(0).toUpperCase()}
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{mt: '45px'}}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -150,9 +157,9 @@ const DashboardLayout = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-                <MenuItem onClick={handleLogout}>
-                  <Typography textAlign="center">Logout</Typography>
-                </MenuItem>
+              <MenuItem onClick={handleLogout}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

@@ -74,10 +74,11 @@ const getLicenseHeaderPattern = () => {
 
 module.exports = {
   extends: ['react-app', 'react-app/jest'],
-  plugins: ['header'],
+  plugins: ['header', 'prettier'],
   rules: {
     // Enforce WSO2 license header on files.
     // https://github.com/Stuk/eslint-plugin-header
     'header/header': ['warn', 'block', getLicenseHeaderPattern(), 2],
+    'prettier/prettier': 'error',
   },
 };
