@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment} from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -25,19 +25,16 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
 import useAccessControl from '../../hooks/use-access-control';
 import {useNavigate} from 'react-router-dom';
+import routesConfig from '../../configs/routes-config';
 
 export const SideNavigation = () => {
-  const {access, initialActiveRoute} = useAccessControl();
-  let navigate = useNavigate();
-
-  useEffect(() => {
-    navigate(initialActiveRoute);
-  }, [initialActiveRoute, navigate]);
+  const {access} = useAccessControl();
+  const navigate = useNavigate();
 
   return (
     <Fragment>
       {access?.dashboard && (
-        <ListItemButton onClick={() => navigate('/')}>
+        <ListItemButton onClick={() => navigate(routesConfig.dashboard)}>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
@@ -45,7 +42,7 @@ export const SideNavigation = () => {
         </ListItemButton>
       )}
       {access?.devices && (
-        <ListItemButton onClick={() => navigate('/devices')}>
+        <ListItemButton onClick={() => navigate(routesConfig.devices)}>
           <ListItemIcon>
             <ShoppingCartIcon />
           </ListItemIcon>
@@ -53,7 +50,7 @@ export const SideNavigation = () => {
         </ListItemButton>
       )}
       {access?.services && (
-        <ListItemButton onClick={() => navigate('/services')}>
+        <ListItemButton onClick={() => navigate(routesConfig.services)}>
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>
@@ -61,7 +58,7 @@ export const SideNavigation = () => {
         </ListItemButton>
       )}
       {access?.promotions && (
-        <ListItemButton onClick={() => navigate('/promotions')}>
+        <ListItemButton onClick={() => navigate(routesConfig.promotions)}>
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>

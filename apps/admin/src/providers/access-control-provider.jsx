@@ -17,11 +17,11 @@
  */
 
 import {useAuthContext} from '@asgardeo/auth-react';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useCallback} from 'react';
 import {UserGroups} from '../models/user';
 import AccessControlContext from '../contexts/access-control-context';
 import routesConfig from '../configs/routes-config';
-
+import {useNavigate} from 'react-router-dom';
 const DEFAULT_ACCESS_CONTROL = {
   dashboard: false,
   devices: false,
@@ -31,10 +31,10 @@ const DEFAULT_ACCESS_CONTROL = {
 
 const AccessControlProvider = ({children}) => {
   const {state, getDecodedIDToken, signIn, trySignInSilently} = useAuthContext();
+  const navigate = useNavigate();
   const {isAuthenticated, isLoading} = state;
 
   const [accessControl, setAccessControl] = useState(DEFAULT_ACCESS_CONTROL);
-  const [initialActiveRoute, setInitialActiveRoute] = useState(routesConfig.dashboard);
   const [decodedIdToken, setDecodedIdToken] = useState({});
 
   useEffect(() => {
@@ -57,6 +57,9 @@ const AccessControlProvider = ({children}) => {
     }
   }, [isAuthenticated, isLoading, signIn]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleNavigation = useCallback(path => navigate(path), []);
+
   useEffect(() => {
     if (!isAuthenticated) {
       return;
@@ -65,32 +68,30 @@ const AccessControlProvider = ({children}) => {
     (async () => {
       const idToken = await getDecodedIDToken();
       let _accessControl = {...DEFAULT_ACCESS_CONTROL};
-      let _initialActiveRoute = initialActiveRoute;
 
       if (idToken?.groups.includes(UserGroups.Admin)) {
         _accessControl = Object.fromEntries(Object.entries(DEFAULT_ACCESS_CONTROL).map(([key, _]) => [key, true]));
-        _initialActiveRoute = routesConfig.dashboard;
+        handleNavigation(routesConfig.dashboard);
       } else if (idToken?.groups.includes(UserGroups.Sales)) {
         _accessControl = {
           ...Object.fromEntries(Object.entries(DEFAULT_ACCESS_CONTROL).map(([key, _]) => [key, false])),
           promotions: true,
         };
-        _initialActiveRoute = routesConfig.promotions;
+        handleNavigation(routesConfig.promotions);
       } else if (idToken?.groups.includes(UserGroups.Marketing)) {
         _accessControl = {
           ...Object.fromEntries(Object.entries(DEFAULT_ACCESS_CONTROL).map(([key, _]) => [key, false])),
           dashboard: true,
         };
-        _initialActiveRoute = routesConfig.dashboard;
+        handleNavigation(routesConfig.dashboard);
       } else {
         // TODO: Route to an unauthorized page.
       }
 
-      setInitialActiveRoute(_initialActiveRoute);
       setDecodedIdToken(idToken);
       setAccessControl(_accessControl);
     })();
-  }, [getDecodedIDToken, isAuthenticated, initialActiveRoute]);
+  }, [getDecodedIDToken, isAuthenticated, handleNavigation]);
 
   const resolveProfile = () => {
     let profile = {...decodedIdToken};
@@ -121,7 +122,7 @@ const AccessControlProvider = ({children}) => {
   };
 
   return (
-    <AccessControlContext.Provider value={{access: accessControl, profile: resolveProfile(), initialActiveRoute}}>
+    <AccessControlContext.Provider value={{access: accessControl, profile: resolveProfile()}}>
       {children}
     </AccessControlContext.Provider>
   );

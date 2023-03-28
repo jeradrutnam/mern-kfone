@@ -32,10 +32,10 @@ import {theme} from './style';
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <AccessControlProvider>
-        <StyleWrapper>
-          <CssBaseline />
-          <Router>
+      <Router>
+        <AccessControlProvider>
+          <StyleWrapper>
+            <CssBaseline />
             <Routes>
               <Route path="/" element={<DashboardLayout />}>
                 <Route path="dashboard" element={<DashboardPage />} />
@@ -44,9 +44,9 @@ const App = () => {
                 <Route path="promotions" element={<PromotionsPage />} />
               </Route>
             </Routes>
-          </Router>
-        </StyleWrapper>
-      </AccessControlProvider>
+          </StyleWrapper>
+        </AccessControlProvider>
+      </Router>
     </ThemeProvider>
   );
 };
