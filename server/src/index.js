@@ -23,7 +23,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import devicesRouter from './routes/devices.js';
 import promotionsRouter from './routes/promotions.js';
-import usersRouter from './routes/users.js'
+import usersRouter from './routes/users.js';
 
 dotenv.config();
 

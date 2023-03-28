@@ -19,26 +19,29 @@
 import mongoose from 'mongoose';
 
 // Define the schema for the users collection
-const userSchema = mongoose.Schema({
+const userSchema = mongoose.Schema(
+  {
     _id: {
-        required: true,
-        type: String
+      required: true,
+      type: String,
     },
     createdAt: {
-        default: Date.now,
-        type: Date,
+      default: Date.now,
+      type: Date,
     },
     favorited: {
-        required: false,
-        default: [],
-        type: [{ ref: 'Item', type: mongoose.Schema.Types.ObjectId }],
+      required: false,
+      default: [],
+      type: [{ref: 'Item', type: mongoose.Schema.Types.ObjectId}],
     },
     points: {
-        required: true,
-        default: 0,
-        type: Number,
+      required: true,
+      default: 0,
+      type: Number,
     },
-}, { _id: false });
+  },
+  {_id: false},
+);
 
 // Create a Mongoose model for the users collection, based on the userSchema
 const User = mongoose.model('User', userSchema);

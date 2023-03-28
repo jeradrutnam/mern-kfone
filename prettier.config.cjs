@@ -24,7 +24,7 @@ module.exports = {
   arrowParens: 'avoid',
   bracketSpacing: false,
   embeddedLanguageFormatting: 'auto',
-  endOfLine: 'lf',
+  endOfLine: 'auto',
   htmlWhitespaceSensitivity: 'css',
   insertPragma: false,
   jsxBracketSameLine: false,
