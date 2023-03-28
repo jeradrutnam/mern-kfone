@@ -28,10 +28,10 @@ import {useState} from 'react';
 import FileBase from 'react-file-base64';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {createPost, updatePost} from '../../actions/posts';
+import {createItem, updateItem} from '../../actions/items';
 import {classes, StyleWrapper} from './style';
 
-const emptyPost = {
+const emptyItem = {
   creator: '',
   title: '',
   message: '',
@@ -40,21 +40,21 @@ const emptyPost = {
 };
 
 const Form = ({currentId, setCurrentId}) => {
-  const [postData, setPostData] = useState(emptyPost);
-  const post = useSelector(state => (currentId ? state.posts.find(p => p._id === currentId) : null));
+  const [itemData, setItemData] = useState(emptyItem);
+  const item = useSelector(state => (currentId ? state.items.find(p => p._id === currentId) : null));
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (post) setPostData(post);
-  }, [post]);
+    if (item) setItemData(item);
+  }, [item]);
 
   const handleSubmit = e => {
     e.preventDefault();
 
     if (currentId) {
-      dispatch(updatePost(currentId, postData));
+      dispatch(updateItem(currentId, itemData));
     } else {
-      dispatch(createPost(postData));
+      dispatch(createItem(itemData));
     }
 
     clear();
@@ -62,7 +62,7 @@ const Form = ({currentId, setCurrentId}) => {
 
   const clear = () => {
     setCurrentId(null);
-    setPostData(emptyPost);
+    setItemData(emptyItem);
   };
 
   return (
@@ -75,39 +75,39 @@ const Form = ({currentId, setCurrentId}) => {
             variant="outlined"
             label="Creator"
             fullWidth
-            value={postData.creator}
-            onChange={e => setPostData({...postData, creator: e.target.value})}
+            value={itemData.creator}
+            onChange={e => setItemData({...itemData, creator: e.target.value})}
           />
           <TextField
             name="title"
             variant="outlined"
             label="Title"
             fullWidth
-            value={postData.title}
-            onChange={e => setPostData({...postData, title: e.target.value})}
+            value={itemData.title}
+            onChange={e => setItemData({...itemData, title: e.target.value})}
           />
           <TextField
             name="message"
             variant="outlined"
             label="Message"
             fullWidth
-            value={postData.message}
-            onChange={e => setPostData({...postData, message: e.target.value})}
+            value={itemData.message}
+            onChange={e => setItemData({...itemData, message: e.target.value})}
           />
           <TextField
             name="tags"
             variant="outlined"
             label="Tags"
             fullWidth
-            value={postData.tags}
-            onChange={e => setPostData({...postData, tags: e.target.value.split(',')})}
+            value={itemData.tags}
+            onChange={e => setItemData({...itemData, tags: e.target.value.split(',')})}
           />
 
           <div className={classes.fileInput}>
             <FileBase
               type="file"
               multiple={false}
-              onDone={({base64}) => setPostData({...postData, selectedFile: base64})}
+              onDone={({base64}) => setItemData({...itemData, selectedFile: base64})}
             />
           </div>
           <Button

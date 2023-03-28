@@ -27,8 +27,8 @@ import {Container, CssBaseline, Button, AppBar, Typography, Grow, Grid, Toolbar,
 import {useDispatch} from 'react-redux';
 import {useAuthContext} from '@asgardeo/auth-react';
 
-import {getPosts} from './actions/posts';
-import Posts from './components/posts/posts';
+import {getItems} from './actions/items';
+import Posts from './components/items/items';
 import Form from './components/form/form';
 import {classes, StyleWrapper, theme} from './style';
 
@@ -40,7 +40,7 @@ const App = () => {
   const USER_AUTHENTICATED = 'userAuthenticated';
 
   useEffect(() => {
-    dispatch(getPosts());
+    dispatch(getItems());
   }, [dispatch]);
 
   useEffect(() => {

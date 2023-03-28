@@ -19,7 +19,7 @@
 import {AsgardeoSPAClient} from '@asgardeo/auth-react';
 import axios from 'axios';
 
-const url = `${process.env.REACT_APP_API_ENDPOINT}/posts`;
+const url = `${process.env.REACT_APP_API_ENDPOINT}/items`;
 
 const spaClient = AsgardeoSPAClient.getInstance();
 
@@ -29,11 +29,11 @@ const doHTTPRequest = requestConfig =>
     .then(response => response)
     .catch(error => error);
 
-export const fetchPosts = () => axios.get(url);
+export const fetchItems = () => axios.get(url);
 
-export const createPost = newPost => {
+export const createItem = newItem => {
   const requestConfig = {
-    data: newPost,
+    data: newItem,
     method: 'POST',
     url,
   };
@@ -41,9 +41,9 @@ export const createPost = newPost => {
   return doHTTPRequest(requestConfig);
 };
 
-export const updatePost = (id, updatedPost) => {
+export const updateItem = (id, updatedItem) => {
   const requestConfig = {
-    data: updatedPost,
+    data: updatedItem,
     method: 'PATCH',
     url: `${url}/${id}`,
   };
@@ -51,7 +51,7 @@ export const updatePost = (id, updatedPost) => {
   return doHTTPRequest(requestConfig);
 };
 
-export const deletePost = id => {
+export const deleteItem = id => {
   const requestConfig = {
     method: 'DELETE',
     url: `${url}/${id}`,
@@ -60,7 +60,7 @@ export const deletePost = id => {
   return doHTTPRequest(requestConfig);
 };
 
-export const likePost = id => {
+export const likeItem = id => {
   const requestConfig = {
     method: 'PATCH',
     url: `${url}/${id}/like`,

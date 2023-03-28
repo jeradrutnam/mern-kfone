@@ -26,20 +26,20 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {Grid, CircularProgress} from '@mui/material';
 
-import Post from './post/post';
+import Item from './item/item';
 import {classes, StyleWrapper} from './style';
 
-const Posts = ({setCurrentId, sm}) => {
-  const posts = useSelector(state => state.posts);
+const Items = ({setCurrentId, sm}) => {
+  const items = useSelector(state => state.items)?.items;
 
-  return !posts.length ? (
+  return !items?.length ? (
     <CircularProgress />
   ) : (
     <StyleWrapper>
       <Grid className={classes.mainContainer} container alignItems="stretch" spacing={3}>
-        {posts.map(post => (
-          <Grid item key={post._id} xs={12} sm={sm} className={classes.mainContainerItem}>
-            <Post post={post} setCurrentId={setCurrentId} />
+        {items?.map(item => (
+          <Grid item key={item._id} xs={12} sm={sm} className={classes.mainContainerItem}>
+            <Item item={item} setCurrentId={setCurrentId} />
           </Grid>
         ))}
       </Grid>
@@ -47,4 +47,4 @@ const Posts = ({setCurrentId, sm}) => {
   );
 };
 
-export default Posts;
+export default Items;
