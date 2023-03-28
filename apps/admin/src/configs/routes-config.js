@@ -16,11 +16,11 @@
  * under the License.
  */
 
-/**
- * Different types of user groups.
- */
-export const UserGroups = Object.freeze({
-  Admin: 'admins',
-  Sales: 'sales',
-  Marketing: 'marketing',
-});
+const routesConfig = {
+  dashboard: '/dashboard',
+  devices: '/devices',
+  services: '/services',
+  promotions: '/promotions',
+};
+
+export default routesConfig;

@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import * as React from 'react';
+import React, {useState} from 'react';
 import {styled} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -33,11 +33,13 @@ import MenuItem from '@mui/material/MenuItem';
 import Container from '@mui/material/Container';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import Tooltip from '@mui/material/Tooltip';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import SideNavigation from '../components/navigation/side-navigation';
 import {useAuthContext} from '@asgardeo/auth-react';
 import {Outlet} from 'react-router-dom';
 import PageSpinner from '../components/spinners/page-spinner';
+import useAccessControl from '../hooks/use-access-control';
+import Logout from '@mui/icons-material/Logout';
 
 const drawerWidth = 240;
 
@@ -83,15 +85,44 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: prop => prop !== 'open'})((
   },
 }));
 
+const StyledMenu = styled(props => (
+  <Menu
+    elevation={0}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'right',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'right',
+    }}
+    {...props}
+  />
+))(({theme}) => ({
+  '& .MuiPaper-root': {
+    borderRadius: 6,
+    marginTop: theme.spacing(1),
+    minWidth: 180,
+    color: theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+    boxShadow:
+      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+    '& .MuiMenu-list': {
+      padding: '4px 0',
+    },
+  },
+}));
+
 const DashboardLayout = () => {
   const {state, signOut} = useAuthContext();
+  const {profile} = useAccessControl();
   const {isAuthenticated, isLoading, username} = state;
-  const [open, setOpen] = React.useState(true);
+
+  const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
@@ -134,14 +165,17 @@ const DashboardLayout = () => {
             Kfone - Manage Services
           </Typography>
           <Box sx={{flexGrow: 0}}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+            <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+              <Typography variant="body2" textAlign="center" sx={{mr: 2}}>
+                {profile?.display_name}
+              </Typography>
+              <IconButton hover={false} onClick={handleOpenUserMenu} sx={{p: 0}}>
                 <Avatar sx={{bgcolor: 'purple'}} alt={username}>
-                  {username.charAt(0).toUpperCase()}
+                  {profile?.display_name?.charAt(0)?.toUpperCase()}
                 </Avatar>
               </IconButton>
-            </Tooltip>
-            <Menu
+            </Box>
+            <StyledMenu
               sx={{mt: '45px'}}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -158,9 +192,12 @@ const DashboardLayout = () => {
               onClose={handleCloseUserMenu}
             >
               <MenuItem onClick={handleLogout}>
-                <Typography textAlign="center">Logout</Typography>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
               </MenuItem>
-            </Menu>
+            </StyledMenu>
           </Box>
         </Toolbar>
       </AppBar>

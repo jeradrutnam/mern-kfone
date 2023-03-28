@@ -26,7 +26,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {fetchPromotions} from '../api/promotions';
 
-const DevicesPage = () => {
+const PromotionsPage = () => {
   const [promotions, setPromotions] = useState([]);
 
   useEffect(() => {
@@ -66,4 +66,4 @@ const DevicesPage = () => {
   );
 };
 
-export default DevicesPage;
+export default PromotionsPage;

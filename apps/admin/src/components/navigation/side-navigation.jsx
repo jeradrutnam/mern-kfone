@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -27,8 +27,12 @@ import useAccessControl from '../../hooks/use-access-control';
 import {useNavigate} from 'react-router-dom';
 
 export const SideNavigation = () => {
-  const {access} = useAccessControl();
+  const {access, initialActiveRoute} = useAccessControl();
   let navigate = useNavigate();
+
+  useEffect(() => {
+    navigate(initialActiveRoute);
+  }, [initialActiveRoute, navigate]);
 
   return (
     <Fragment>
