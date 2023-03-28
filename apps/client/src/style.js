@@ -16,7 +16,8 @@
  * under the License.
  */
 
-import {styled} from '@mui/material/styles';
+import { red } from '@mui/material/colors';
+import {styled, createTheme} from '@mui/material/styles';
 
 const PREFIX = 'custom';
 
@@ -27,12 +28,18 @@ export const classes = {
   mainContainer: `${PREFIX}-main-container`,
 };
 
+export const theme = createTheme({
+  palette: {
+    primary: red,
+  },
+});
+
 export const StyleWrapper = styled('div')(({theme}) => ({
   [`& .${classes.appBar}`]: {
     margin: '0 0 30px 0',
   },
   [`& .${classes.heading}`]: {
-    color: '#9c27b0',
+    color: '#ed3d48',
   },
   [`& .${classes.image}`]: {
     marginLeft: '15px',

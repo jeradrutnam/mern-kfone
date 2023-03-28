@@ -23,14 +23,14 @@
  **/
 
 import React, {useEffect, useState} from 'react';
-import {Container, CssBaseline, Button, AppBar, Typography, Grow, Grid, Toolbar} from '@mui/material';
+import {Container, CssBaseline, Button, AppBar, Typography, Grow, Grid, Toolbar, ThemeProvider} from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {useAuthContext} from '@asgardeo/auth-react';
 
 import {getPosts} from './actions/posts';
 import Posts from './components/posts/posts';
 import Form from './components/form/form';
-import {classes, StyleWrapper} from './style';
+import {classes, StyleWrapper, theme} from './style';
 
 const App = () => {
   const {state, signIn, signOut, on} = useAuthContext();
@@ -59,61 +59,70 @@ const App = () => {
   };
 
   return (
-    <StyleWrapper>
-      <CssBaseline />
-      <AppBar position="relative" color="default" className={classes.appBar}>
-        <Toolbar sx={{flexWrap: 'wrap'}}>
-          <Typography variant="h6" color="inherit" className={classes.heading} noWrap sx={{flexGrow: 1}}>
-            Kfone - Your digital world tomorrow
-          </Typography>
-          {!state.isAuthenticated ? (
-            <Button className={classes.buttonSubmit} variant="outlined" sx={{my: 1, mx: 1.5}} onClick={() => signIn()}>
-              Sign In
-            </Button>
-          ) : (
-            <>
-              <nav>{state.username}</nav>
-              <Button
-                className={classes.buttonSubmit}
-                variant="outlined"
-                sx={{my: 1, mx: 1.5}}
-                onClick={() => handleLogout()}
-              >
-                Logout
-              </Button>
-            </>
-          )}
-        </Toolbar>
-      </AppBar>
-      <Container maxWidth="lg">
-        <Grow in>
-          <Grid
-            className={classes.mainContainer}
-            container
-            justifyContent="space-between"
-            alignItems="stretch"
-            spacing={3}
-          >
-            {state.isAuthenticated ? (
+    <ThemeProvider theme={theme}>
+      <StyleWrapper>
+        <CssBaseline />
+        <AppBar position="relative" color="default" className={classes.appBar}>
+          <Toolbar sx={{flexWrap: 'wrap'}}>
+            <Typography variant="h6" color="inherit" className={classes.heading} noWrap sx={{flexGrow: 1}}>
+              Kfone - Your digital world tomorrow
+            </Typography>
+            {!state.isAuthenticated ? (
               <>
-                <Grid item xs={12} sm={7}>
-                  <Posts setCurrentId={setCurrentId} sm={6} />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Form currentId={currentId} setCurrentId={setCurrentId} />
-                </Grid>
+                <Button className={classes.buttonSubmit} variant="outlined" sx={{my: 1, mx: 1.5}} 
+                  href={`${process.env.REACT_APP_ASGARDEO_SIGNUP_URL}`}>
+                  Register
+                </Button>
+                <Button className={classes.buttonSubmit} variant="contained" sx={{my: 1, mx: 1.5}} 
+                  onClick={() => signIn()}>
+                  Sign In
+                </Button>
               </>
             ) : (
               <>
-                <Grid item xs={12} sm={12}>
-                  <Posts setCurrentId={setCurrentId} sm={4} />
-                </Grid>
+                <nav>{state.username}</nav>
+                <Button
+                  className={classes.buttonSubmit}
+                  variant="outlined"
+                  sx={{my: 1, mx: 1.5}}
+                  onClick={() => handleLogout()}
+                >
+                  Logout
+                </Button>
               </>
             )}
-          </Grid>
-        </Grow>
-      </Container>
-    </StyleWrapper>
+          </Toolbar>
+        </AppBar>
+        <Container maxWidth="lg">
+          <Grow in>
+            <Grid
+              className={classes.mainContainer}
+              container
+              justifyContent="space-between"
+              alignItems="stretch"
+              spacing={3}
+            >
+              {state.isAuthenticated ? (
+                <>
+                  <Grid item xs={12} sm={7}>
+                    <Posts setCurrentId={setCurrentId} sm={6} />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <Form currentId={currentId} setCurrentId={setCurrentId} />
+                  </Grid>
+                </>
+              ) : (
+                <>
+                  <Grid item xs={12} sm={12}>
+                    <Posts setCurrentId={setCurrentId} sm={4} />
+                  </Grid>
+                </>
+              )}
+            </Grid>
+          </Grow>
+        </Container>
+      </StyleWrapper>
+    </ThemeProvider>
   );
 };
 
