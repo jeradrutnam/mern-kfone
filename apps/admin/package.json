@@ -22,8 +22,8 @@
     "react"
   ],
   "scripts": {
-    "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
-    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "lint": "npm run lint:es",
     "lint:es": "eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "NODE_OPTIONS=--experimental-vm-modules npm jest --passWithNoTests",

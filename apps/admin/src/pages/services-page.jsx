@@ -16,57 +16,8 @@
  * under the License.
  */
 
-import React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-
-function createData(code, promoType, promoAmount, productIds, usage, expiary) {
-  return {code, promoType, promoAmount, productIds, usage, expiary};
-}
-
-const rows = [
-  createData('OCT54', 'Seasonal', '10%', '', '2/100', '23rd, Apr 2023'),
-  createData('QJK56', 'Seasonal', '10%', '', '0/100', '23rd, Apr 2023'),
-  createData('OCT54', 'Seasonal', '10%', '', '2/100', '23rd, Apr 2023'),
-  createData('OCT54', 'Seasonal', '10%', '', '2/100', '23rd, Apr 2023'),
-  createData('OCT54', 'Seasonal', '10%', '', '2/100', '23rd, Apr 2023'),
-  createData('OCT54', 'Seasonal', '10%', '', '2/100', '23rd, Apr 2023'),
-];
-
-const DevicesPage = () => {
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{minWidth: 650}} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Promotion Code</TableCell>
-            <TableCell align="right">Promotion Type</TableCell>
-            <TableCell align="right">Promotion Amount</TableCell>
-            <TableCell align="right">Product IDs</TableCell>
-            <TableCell align="right">Usage/Limit</TableCell>
-            <TableCell align="right">Expiary</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.name} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-              <TableCell>{row.code}</TableCell>
-              <TableCell align="right">{row.promoType}</TableCell>
-              <TableCell align="right">{row.promoAmount}</TableCell>
-              <TableCell align="right">{row.productIds}</TableCell>
-              <TableCell align="right">{row.usage}</TableCell>
-              <TableCell align="right">{row.expiary}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+const ServicesPage = () => {
+  return 'Services';
 };
 
-export default DevicesPage;
+export default ServicesPage;

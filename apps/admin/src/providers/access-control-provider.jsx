@@ -50,9 +50,11 @@ const AccessControlProvider = ({children}) => {
     (async () => {
       try {
         const response = await trySignInSilently();
-    
+
         if (response) {
           resolveAccessControl();
+        } else {
+          signIn();
         }
       } catch (e) {
         signIn();

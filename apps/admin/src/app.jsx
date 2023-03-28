@@ -16,30 +16,20 @@
  * under the License.
  */
 
-import React, {useEffect, useState} from 'react';
-import {Container, CssBaseline, Button, AppBar, Typography, Grow, Grid, Toolbar, Icon} from '@mui/material';
-import {useDispatch} from 'react-redux';
+import React, {} from 'react';
+import {CssBaseline} from '@mui/material';
 import {useAuthContext} from '@asgardeo/auth-react';
-import {getPosts} from './actions/posts';
-import Posts from './components/posts/posts';
-import Form from './components/form/form';
-import IconMenu from './components/iconMenu/iconMenu';
-import Devices from './components/devices/devices';
-import FilterHeader from './components/filterHeader/filterHeader';
-import {classes, StyleWrapper} from './style';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import {StyleWrapper} from './style';
 import DashboardLayout from './layouts/dashboard-layout';
 import {Route, Routes, BrowserRouter as Router} from 'react-router-dom';
 import DashboardPage from './pages/dashboard-page';
 import DevicesPage from './pages/devices-page';
 import ServicesPage from './pages/services-page';
 import PromotionsPage from './pages/promotions-page';
-import PageSpinner from './components/spinners/page-spinner';
 import AccessControlProvider from './providers/access-control-provider';
 
 const App = () => {
-  const {state, signIn, signOut, on} = useAuthContext();
+  const {state} = useAuthContext();
   const {isAuthenticated, isLoading} = state;
 
   // if (isLoading) {
