@@ -1,40 +1,53 @@
 /**
- * MIT License
+ * Copyright (c) 2023, WSO2 LLC. (https://www.wso2.com). All Rights Reserved.
  *
- * Copyright (c) 2023 Jerad Rutnam (jeradrutnam.com)
+ * WSO2 LLC. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- **/
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 
 import React, {useEffect, useState} from 'react';
-import {Container, CssBaseline, Button, AppBar, Typography, Grow, Grid, Toolbar, ThemeProvider} from '@mui/material';
+import {
+  Avatar,
+  Container,
+  CssBaseline,
+  Chip,
+  Box,
+  Button,
+  AppBar,
+  Typography,
+  Grow,
+  Grid,
+  Toolbar,
+  ThemeProvider,
+} from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {useAuthContext} from '@asgardeo/auth-react';
 
+import LOGO_IMAGE from './images/logo-full.svg';
 import {getItems} from './actions/items';
 import Posts from './components/items/items';
 import Form from './components/form/form';
 import {classes, StyleWrapper, theme} from './style';
+import {createUser, fetchUserBySub} from './api/user';
 
 const App = () => {
-  const {state, signIn, signOut, on} = useAuthContext();
+  const {state, signIn, signOut, on, getDecodedIDToken} = useAuthContext();
   const [currentId, setCurrentId] = useState(null);
+  const [displayName, setDisplayName] = useState(null);
+  const [photoUrl, setPhotoUrl] = useState(null);
+  const [loyaltyPoints, setLoyaltyPoints] = useState(null);
+  const [tier, setTier] = useState(null);
   const dispatch = useDispatch();
 
   const USER_AUTHENTICATED = 'userAuthenticated';
@@ -49,6 +62,34 @@ const App = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (!state?.isAuthenticated) {
+      return;
+    }
+
+    setDisplayName(state.displayName);
+
+    (async () => {
+      const idToken = await getDecodedIDToken();
+      if (idToken.username) {
+        setDisplayName(idToken.username);
+      }
+      if (idToken.picture) {
+        setPhotoUrl(idToken.picture);
+      }
+
+      let res = await fetchUserBySub(idToken.sub);
+      if (!res.data?.user) {
+        res = await createUser({_id: idToken.sub});
+      }
+      setLoyaltyPoints(res.data.user.points);
+    })();
+  }, [getDecodedIDToken, state?.isAuthenticated]);
+
+  useEffect(() => {
+    setTier(calculateTier(loyaltyPoints));
+  }, [loyaltyPoints]);
+
   on('sign-in', () => {
     localStorage.setItem(USER_AUTHENTICATED, 'true');
   });
@@ -58,6 +99,18 @@ const App = () => {
     signOut();
   };
 
+  const calculateTier = loyaltyPoints => {
+    if (loyaltyPoints >= 500) {
+      return 'Platinum';
+    } else if (loyaltyPoints >= 300) {
+      return 'Gold';
+    } else if (loyaltyPoints >= 150) {
+      return 'Silver';
+    } else {
+      return `${150 - loyaltyPoints} more needed for Silver`;
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <StyleWrapper>
@@ -65,7 +118,7 @@ const App = () => {
         <AppBar position="relative" color="default" className={classes.appBar}>
           <Toolbar sx={{flexWrap: 'wrap'}}>
             <Typography variant="h6" color="inherit" className={classes.heading} noWrap sx={{flexGrow: 1}}>
-              Kfone - Your digital world tomorrow
+              <img src={LOGO_IMAGE} alt="Kfone Logo" />
             </Typography>
             {!state.isAuthenticated ? (
               <>
@@ -88,7 +141,13 @@ const App = () => {
               </>
             ) : (
               <>
-                <nav>{state.username}</nav>
+                <Box mx={2}>
+                  <Chip label={tier} />
+                </Box>
+                {photoUrl ? <Avatar alt="Photo" src={photoUrl} /> : <Avatar>{displayName?.charAt(0)}</Avatar>}
+                <Box mx={2}>
+                  <div>Hi {displayName}</div>
+                </Box>
                 <Button
                   className={classes.buttonSubmit}
                   variant="outlined"

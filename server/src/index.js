@@ -23,6 +23,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import devicesRouter from './routes/devices.js';
 import promotionsRouter from './routes/promotions.js';
+import usersRouter from './routes/users.js'
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use(cors(CORS_CONFIG));
 
 app.use('/devices', devicesRouter);
 app.use('/promotions', promotionsRouter);
+app.use('/users', usersRouter);
 
 app.get('/', (_, res) => {
   res.send(`Kfone Services API v1.0.`);
