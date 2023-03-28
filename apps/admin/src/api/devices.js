@@ -94,7 +94,7 @@ export async function updateDevice(id, body) {
 
   try {
     const response = await request({
-      method: 'patch',
+      method: 'put',
       url: endpoint,
       headers: {
         'Content-Type': 'application/json',
