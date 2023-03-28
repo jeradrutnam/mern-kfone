@@ -32,7 +32,7 @@ root.render(
       clientID: `${process.env.REACT_APP_CLIENT_ID}`,
       baseUrl: `${process.env.REACT_APP_ASGARDEO_BASE_URL}`,
       resourceServerURLs: [`${process.env.REACT_APP_API_ENDPOINT}`],
-      scope: ['openid', 'profile'],
+      scope: ['openid', 'profile', 'groups'],
     }}
   >
     <App />
