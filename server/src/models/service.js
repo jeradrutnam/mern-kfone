@@ -18,37 +18,44 @@
 
 import mongoose from 'mongoose';
 
-// Define the schema for the promotions collection
-
-const promotionSchema = new mongoose.Schema({
-  discount: {
-    min: 0,
-    required: true,
-    type: Number,
+// Define the schema for the devices collection
+const serviceSchema = mongoose.Schema({
+  createdAt: {
+    default: Date.now,
+    type: Date,
   },
   description: {
     required: true,
     type: String,
   },
-  endDate: {
-    required: true,
-    type: Date,
+  favorited: {
+    required: false,
+    type: Boolean,
   },
-  items: {
-    type: [mongoose.Schema.Types.Mixed],
-    required: true,
-  },
-  promoCode: {
+  name: {
     required: true,
     type: String,
   },
-  startDate: {
+  image: {
+    required: false,
+    type: String,
+  },
+  price: {
     required: true,
-    type: Date,
+    type: Number,
+  },
+  promotions: {
+    default: [],
+    type: [{ref: 'Promotion', type: mongoose.Schema.Types.ObjectId}],
+  },
+  serviceType: {
+    required: true,
+    type: String,
+    enum: ['Wireless', 'Internet', 'Cloud'],
   },
 });
 
-// Create a Mongoose model for the promotions collection, based on the itemSchema
-const Promotion = mongoose.model('Promotion', promotionSchema);
+// Create a Mongoose model for the devices collection, based on the deviceSchema
+const Service = mongoose.model('Service', serviceSchema);
 
-export default Promotion;
+export default Service;

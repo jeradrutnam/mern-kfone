@@ -25,6 +25,7 @@ const endpointConfig = {
     asgardeoBaseUrl,
     endpoints: {
       devices: `${apiBaseUrl}/devices`,
+      services: `${apiBaseUrl}/services`,
       me: `${asgardeoBaseUrl}/scim2/Me`,
       promotions: `${apiBaseUrl}/promotions`,
     },

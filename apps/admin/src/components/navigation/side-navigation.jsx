@@ -21,11 +21,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
 import useAccessControl from '../../hooks/use-access-control';
 import {useNavigate} from 'react-router-dom';
 import routesConfig from '../../configs/routes-config';
+import DeviceHubIcon from '@mui/icons-material/DeviceHub';
+import LeakAddIcon from '@mui/icons-material/LeakAdd';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 
 export const SideNavigation = () => {
   const {access} = useAccessControl();
@@ -44,7 +46,7 @@ export const SideNavigation = () => {
       {access?.devices && (
         <ListItemButton onClick={() => navigate(routesConfig.devices)}>
           <ListItemIcon>
-            <ShoppingCartIcon />
+            <DeviceHubIcon />
           </ListItemIcon>
           <ListItemText primary="Devices" />
         </ListItemButton>
@@ -52,7 +54,7 @@ export const SideNavigation = () => {
       {access?.services && (
         <ListItemButton onClick={() => navigate(routesConfig.services)}>
           <ListItemIcon>
-            <PeopleIcon />
+            <LeakAddIcon />
           </ListItemIcon>
           <ListItemText primary="Services" />
         </ListItemButton>
@@ -60,7 +62,7 @@ export const SideNavigation = () => {
       {access?.promotions && (
         <ListItemButton onClick={() => navigate(routesConfig.promotions)}>
           <ListItemIcon>
-            <PeopleIcon />
+            <TrendingDownIcon />
           </ListItemIcon>
           <ListItemText primary="Promotions" />
         </ListItemButton>

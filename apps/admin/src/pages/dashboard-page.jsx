@@ -19,7 +19,6 @@
 import * as React from 'react';
 import {useTheme} from '@mui/material/styles';
 import {LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer} from 'recharts';
-import Link from '@mui/material/Link';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -47,16 +46,32 @@ const data = [
   createData('24:00', undefined),
 ];
 
-function createOrderData(id, date, name, shipTo, paymentMethod, amount) {
-  return {id, date, name, shipTo, paymentMethod, amount};
-}
-
-const orderRows = [
-  createOrderData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
-  createOrderData(1, '16 Mar, 2019', 'Paul McCartney', 'London, UK', 'VISA ⠀•••• 2574', 866.99),
-  createOrderData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-  createOrderData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', 654.39),
-  createOrderData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
+const items = [
+  {
+    description: 'Best broadband hub for working from home.',
+    name: '5G Hub',
+    price: 1499,
+  },
+  {
+    description: '128GB Midnight',
+    name: 'Apple iPhone 14 Pro',
+    price: 999,
+  },
+  {
+    description: '5G 128GB Black',
+    name: 'Samsung Galaxy S22',
+    price: 699,
+  },
+  {
+    description: '128GB Obsidian Black',
+    name: 'Google Pixel 7 Pro',
+    price: 1299,
+  },
+  {
+    description: 'FE 5G Green',
+    name: 'Samsung Galaxy S20',
+    price: 899,
+  },
 ];
 
 function Title(props) {
@@ -72,7 +87,7 @@ export default function Chart() {
 
   return (
     <React.Fragment>
-      <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
+      <Container maxWidth="" sx={{mt: 4, mb: 4}}>
         <Grid container spacing={3}>
           {/* Chart */}
           <Grid item xs={12} md={8} lg={9}>
@@ -81,7 +96,7 @@ export default function Chart() {
                 p: 2,
                 display: 'flex',
                 flexDirection: 'column',
-                height: 240,
+                height: 400,
               }}
             >
               <ResponsiveContainer>
@@ -126,7 +141,7 @@ export default function Chart() {
                 p: 2,
                 display: 'flex',
                 flexDirection: 'column',
-                height: 240,
+                height: 400,
               }}
             >
               <React.Fragment>
@@ -145,24 +160,20 @@ export default function Chart() {
             <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
               <React.Fragment>
                 <Title>Recent Orders</Title>
-                <Table size="small">
+                <Table sx={{minWidth: 650}} aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Date</TableCell>
                       <TableCell>Name</TableCell>
-                      <TableCell>Ship To</TableCell>
-                      <TableCell>Payment Method</TableCell>
-                      <TableCell align="right">Sale Amount</TableCell>
+                      <TableCell align="right">Price</TableCell>
+                      <TableCell align="right">Description</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {orderRows.map(row => (
-                      <TableRow key={row.id}>
-                        <TableCell>{row.date}</TableCell>
-                        <TableCell>{row.name}</TableCell>
-                        <TableCell>{row.shipTo}</TableCell>
-                        <TableCell>{row.paymentMethod}</TableCell>
-                        <TableCell align="right">{`$${row.amount}`}</TableCell>
+                    {items?.map(item => (
+                      <TableRow key={item._id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                        <TableCell>{item.name}</TableCell>
+                        <TableCell align="right">{item.price}</TableCell>
+                        <TableCell align="right">{item.description}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

@@ -22,6 +22,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import devicesRouter from './routes/devices.js';
+import servicesRouter from './routes/services.js';
 import promotionsRouter from './routes/promotions.js';
 import usersRouter from './routes/users.js';
 
@@ -42,6 +43,7 @@ app.use(cors(CORS_CONFIG));
 
 app.use('/devices', devicesRouter);
 app.use('/promotions', promotionsRouter);
+app.use('/services', servicesRouter);
 app.use('/users', usersRouter);
 
 app.get('/', (_, res) => {

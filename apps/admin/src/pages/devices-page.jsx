@@ -105,6 +105,7 @@ const DevicesPage = () => {
     setFormMode(mode);
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
     setFormData(DEFAULT_FORM_VALUES);
@@ -203,10 +204,6 @@ const DevicesPage = () => {
                 onChange={e => setFormData({...formData, price: e.target.value})}
               />
             </FormControl>
-            {/* <Button sx={{mb: 3}} variant="outlined" startIcon={<PhotoCamera />} component="label">
-              Upload Image
-              <FileBase type="file" multiple={false} onDone={({base64}) => setFormData({...formData, image: base64})} />
-            </Button> */}
             <FileBase type="file" multiple={false} onDone={({base64}) => setFormData({...formData, image: base64})} />
             <Divider sx={{pb: 3}} variant="fullWidth" />
             <Button style={modalButton} type="submit" variant="contained">

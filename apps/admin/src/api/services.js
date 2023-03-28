@@ -26,15 +26,15 @@ const request = requestConfig =>
     .catch(error => error);
 
 /**
- * Fetches the list of promotions using the REST API.
+ * Fetches the list of services using the REST API.
  *
  * @async
  * @function
- * @returns {Promise<Object>} Promotions response.
+ * @returns {Promise<Object>} Services response.
  * @throws {Error} If the API request fails.
  */
-export async function fetchPromotions() {
-  const endpoint = `${endpointConfig.api.endpoints.promotions}`;
+export async function fetchServices() {
+  const endpoint = `${endpointConfig.api.endpoints.services}`;
 
   try {
     const response = await request({
@@ -47,21 +47,21 @@ export async function fetchPromotions() {
 
     return response.data;
   } catch (error) {
-    throw new Error('Failed to fetch the promotions');
+    throw new Error('Failed to fetch the services');
   }
 }
 
 /**
- * Creates a new promotion using the REST API.
+ * Creates a new service using the REST API.
  *
  * @async
  * @function
- * @param {Object} body - The promotion object to create.
- * @returns {Promise<Object>} The newly created promotion object.
+ * @param {Object} body - The service object to create.
+ * @returns {Promise<Object>} The newly created service object.
  * @throws {Error} If the API request fails.
  */
-export async function createPromotion(body) {
-  const endpoint = `${endpointConfig.api.endpoints.promotions}`;
+export async function createService(body) {
+  const endpoint = `${endpointConfig.api.endpoints.services}`;
 
   try {
     const response = await request({
@@ -75,22 +75,22 @@ export async function createPromotion(body) {
 
     return response.data;
   } catch (error) {
-    throw new Error('Failed to create the promotion');
+    throw new Error('Failed to create the service');
   }
 }
 
 /**
- * Updates an existing promotion using the REST API.
+ * Updates an existing service using the REST API.
  *
  * @async
  * @function
- * @param {string} promotionId - The ID of the promotion to update.
- * @param {Object} body - The updates to apply to the promotion.
- * @returns {Promise<Object>} The updated promotion object.
+ * @param {string} serviceId - The ID of the service to update.
+ * @param {Object} body - The updates to apply to the service.
+ * @returns {Promise<Object>} The updated service object.
  * @throws {Error} If the API request fails.
  */
-export async function updatePromotion(id, body) {
-  const endpoint = `${endpointConfig.api.endpoints.promotions}/${id}`;
+export async function updateService(id, body) {
+  const endpoint = `${endpointConfig.api.endpoints.services}/${id}`;
 
   try {
     const response = await request({
@@ -104,21 +104,21 @@ export async function updatePromotion(id, body) {
 
     return response.data;
   } catch (error) {
-    throw new Error('Failed to update the promotion');
+    throw new Error('Failed to update the service');
   }
 }
 
 /**
- * Deletes an existing promotion using the REST API.
+ * Deletes an existing service using the REST API.
  *
  * @async
  * @function
- * @param {string} id - The ID of the promotion to delete.
- * @returns {Promise<void>} A promise that resolves when the promotion has been deleted.
+ * @param {string} id - The ID of the service to delete.
+ * @returns {Promise<void>} A promise that resolves when the service has been deleted.
  * @throws {Error} If the API request fails.
  */
-export async function deletePromotion(id) {
-  const endpoint = `${endpointConfig.api.endpoints.promotions}/${id}`;
+export async function deleteService(id) {
+  const endpoint = `${endpointConfig.api.endpoints.services}/${id}`;
 
   try {
     await request({
@@ -129,6 +129,6 @@ export async function deletePromotion(id) {
       },
     });
   } catch (error) {
-    throw new Error('Failed to delete the promotion');
+    throw new Error('Failed to delete the service');
   }
 }
