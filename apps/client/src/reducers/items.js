@@ -18,20 +18,20 @@
 
 import {CREATE, UPDATE, DELETE, LIKE, FETCH_ALL} from '../constants/action-types';
 
-const POSTS_REDUCER = (posts = [], action) => {
+const ITEMS_REDUCER = (items = [], action) => {
   switch (action.type) {
     case FETCH_ALL:
       return action.payload;
     case CREATE:
-      return [...posts, action.payload];
+      return [...items, action.payload];
     case UPDATE:
     case LIKE:
-      return posts.map(post => (post._id === action.payload._id ? action.payload : post));
+      return items.map(item => (item._id === action.payload._id ? action.payload : item));
     case DELETE:
-      return posts.filter(post => post._id !== action.payload);
+      return items.filter(item => item._id !== action.payload);
     default:
-      return posts;
+      return items;
   }
 };
 
-export default POSTS_REDUCER;
+export default ITEMS_REDUCER;
