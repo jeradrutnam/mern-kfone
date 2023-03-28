@@ -50,3 +50,85 @@ export async function fetchDevices() {
     throw new Error('Failed to fetch the devices');
   }
 }
+
+/**
+ * Creates a new device using the REST API.
+ *
+ * @async
+ * @function
+ * @param {Object} body - The device object to create.
+ * @returns {Promise<Object>} The newly created device object.
+ * @throws {Error} If the API request fails.
+ */
+export async function createDevice(body) {
+  const endpoint = `${endpointConfig.api.endpoints.devices}`;
+
+  try {
+    const response = await request({
+      method: 'post',
+      url: endpoint,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: body,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to create the device');
+  }
+}
+
+/**
+ * Updates an existing device using the REST API.
+ *
+ * @async
+ * @function
+ * @param {string} deviceId - The ID of the device to update.
+ * @param {Object} body - The updates to apply to the device.
+ * @returns {Promise<Object>} The updated device object.
+ * @throws {Error} If the API request fails.
+ */
+export async function updateDevice(id, body) {
+  const endpoint = `${endpointConfig.api.endpoints.devices}/${id}`;
+
+  try {
+    const response = await request({
+      method: 'patch',
+      url: endpoint,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: body,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to update the device');
+  }
+}
+
+/**
+ * Deletes an existing device using the REST API.
+ *
+ * @async
+ * @function
+ * @param {string} id - The ID of the device to delete.
+ * @returns {Promise<void>} A promise that resolves when the device has been deleted.
+ * @throws {Error} If the API request fails.
+ */
+export async function deleteDevice(id) {
+  const endpoint = `${endpointConfig.api.endpoints.devices}/${id}`;
+
+  try {
+    await request({
+      method: 'delete',
+      url: endpoint,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (error) {
+    throw new Error('Failed to delete the device');
+  }
+}
