@@ -27,6 +27,7 @@ import {Container, CssBaseline, Button, AppBar, Typography, Grow, Grid, Toolbar,
 import {useDispatch} from 'react-redux';
 import {useAuthContext} from '@asgardeo/auth-react';
 
+import LOGO_IMAGE from './images/logo-full.svg';
 import {getItems} from './actions/items';
 import Posts from './components/items/items';
 import Form from './components/form/form';
@@ -65,7 +66,7 @@ const App = () => {
         <AppBar position="relative" color="default" className={classes.appBar}>
           <Toolbar sx={{flexWrap: 'wrap'}}>
             <Typography variant="h6" color="inherit" className={classes.heading} noWrap sx={{flexGrow: 1}}>
-              Kfone - Your digital world tomorrow
+              <img src={LOGO_IMAGE} alt="Kfone Logo" />
             </Typography>
             {!state.isAuthenticated ? (
               <>
