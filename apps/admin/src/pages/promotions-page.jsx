@@ -52,15 +52,6 @@ import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {MultiInputDateTimeRangeField} from '@mui/x-date-pickers-pro/MultiInputDateTimeRangeField';
 
-const fabStyle = {
-  margin: 0,
-  top: 'auto',
-  right: 20,
-  bottom: 'auto',
-  left: 'auto',
-  position: 'fixed',
-};
-
 const tableStyle = {
   marginTop: 56,
 };
@@ -292,14 +283,7 @@ const PromotionsPage = () => {
           <TextField size="Normal" variant="filled" fullWidth label="Search..." id="fullWidth" />
         </Grid>
         <Grid item xs={8}>
-          <Fab
-            onClick={() => handleOpen('ADD')}
-            style={fabStyle}
-            variant="extended"
-            size="medium"
-            color="primary"
-            aria-label="add"
-          >
+          <Fab onClick={() => handleOpen('ADD')} variant="extended" size="medium" color="primary" aria-label="add">
             <AddIcon sx={{mr: 1}} />
             Add Promotions
           </Fab>

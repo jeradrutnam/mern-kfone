@@ -43,15 +43,6 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Button from '@mui/material/Button';
 import FileBase from 'react-file-base64';
 
-const fabStyle = {
-  margin: 0,
-  top: 'auto',
-  right: 20,
-  bottom: 'auto',
-  left: 'auto',
-  position: 'fixed',
-};
-
 const tableStyle = {
   marginTop: 56,
 };
@@ -228,14 +219,7 @@ const DevicesPage = () => {
           <TextField size="Normal" variant="filled" fullWidth label="Search..." id="fullWidth" />
         </Grid>
         <Grid item xs={8}>
-          <Fab
-            onClick={() => handleOpen('ADD')}
-            style={fabStyle}
-            variant="extended"
-            size="medium"
-            color="primary"
-            aria-label="add"
-          >
+          <Fab onClick={() => handleOpen('ADD')} variant="extended" size="medium" color="primary" aria-label="add">
             <AddIcon sx={{mr: 1}} />
             Add Devices
           </Fab>

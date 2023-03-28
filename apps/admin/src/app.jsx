@@ -25,6 +25,7 @@ import DashboardPage from './pages/dashboard-page';
 import DevicesPage from './pages/devices-page';
 import ServicesPage from './pages/services-page';
 import PromotionsPage from './pages/promotions-page';
+import ManageCustomersPage from './pages/manage-customers-page';
 import AccessControlProvider from './providers/access-control-provider';
 import {ThemeProvider} from '@mui/material';
 import {theme} from './style';
@@ -42,6 +43,7 @@ const App = () => {
                 <Route path="devices" element={<DevicesPage />} />
                 <Route path="services" element={<ServicesPage />} />
                 <Route path="promotions" element={<PromotionsPage />} />
+                <Route path="manage-customers" element={<ManageCustomersPage />} />
               </Route>
             </Routes>
           </StyleWrapper>

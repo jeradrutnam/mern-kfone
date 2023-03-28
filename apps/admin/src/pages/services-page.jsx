@@ -45,15 +45,6 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Button from '@mui/material/Button';
 import FileBase from 'react-file-base64';
 
-const fabStyle = {
-  margin: 0,
-  top: 'auto',
-  right: 20,
-  bottom: 'auto',
-  left: 'auto',
-  position: 'fixed',
-};
-
 const tableStyle = {
   marginTop: 56,
 };
@@ -243,19 +234,13 @@ const ServicesPage = () => {
           Manage Services: Add, Update, and Delete with Ease
         </Typography>
       </div>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
+      <Grid container spacing={3}>
+        <Grid item xs>
           <TextField size="Normal" variant="filled" fullWidth label="Search..." id="fullWidth" />
         </Grid>
-        <Grid item xs={8}>
-          <Fab
-            onClick={() => handleOpen('ADD')}
-            style={fabStyle}
-            variant="extended"
-            size="medium"
-            color="primary"
-            aria-label="add"
-          >
+        <Grid item xs={6}></Grid>
+        <Grid item xs>
+          <Fab onClick={() => handleOpen('ADD')} variant="extended" size="medium" color="primary" aria-label="add">
             <AddIcon sx={{mr: 1}} />
             Add Services
           </Fab>

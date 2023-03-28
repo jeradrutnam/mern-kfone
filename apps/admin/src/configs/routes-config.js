@@ -21,6 +21,7 @@ const routesConfig = {
   devices: '/devices',
   services: '/services',
   promotions: '/promotions',
+  manageCustomers: '/manage-customers',
 };
 
 export default routesConfig;

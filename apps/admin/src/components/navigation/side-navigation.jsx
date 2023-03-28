@@ -21,7 +21,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleIcon from '@mui/icons-material/People';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import useAccessControl from '../../hooks/use-access-control';
 import {useNavigate} from 'react-router-dom';
 import routesConfig from '../../configs/routes-config';
@@ -65,6 +65,14 @@ export const SideNavigation = () => {
             <TrendingDownIcon />
           </ListItemIcon>
           <ListItemText primary="Promotions" />
+        </ListItemButton>
+      )}
+      {access?.manageCustomers && (
+        <ListItemButton onClick={() => navigate(routesConfig.manageCustomers)}>
+          <ListItemIcon>
+            <GroupAddIcon />
+          </ListItemIcon>
+          <ListItemText primary="Manage Customers" />
         </ListItemButton>
       )}
     </Fragment>

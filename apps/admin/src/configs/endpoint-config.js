@@ -28,6 +28,7 @@ const endpointConfig = {
       services: `${apiBaseUrl}/services`,
       me: `${asgardeoBaseUrl}/scim2/Me`,
       promotions: `${apiBaseUrl}/promotions`,
+      users: `${asgardeoBaseUrl}/scim2/Users`,
     },
   },
 };

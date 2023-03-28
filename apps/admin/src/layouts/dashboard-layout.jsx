@@ -170,7 +170,7 @@ const DashboardLayout = () => {
                 {profile?.display_name}
               </Typography>
               <IconButton hover={false} onClick={handleOpenUserMenu} sx={{p: 0}}>
-                <Avatar sx={{bgcolor: 'purple'}} alt={username}>
+                <Avatar sx={{bgcolor: 'purple'}} alt={username} src={profile?.picture}>
                   {profile?.display_name?.charAt(0)?.toUpperCase()}
                 </Avatar>
               </IconButton>

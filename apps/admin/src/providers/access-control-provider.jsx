@@ -27,6 +27,7 @@ const DEFAULT_ACCESS_CONTROL = {
   devices: false,
   services: false,
   promotions: false,
+  manageCustomers: false,
 };
 
 const AccessControlProvider = ({children}) => {
