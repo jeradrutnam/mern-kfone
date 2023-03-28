@@ -30,7 +30,9 @@ export const classes = {
 
 export const theme = createTheme({
   palette: {
-    primary: red,
+    primary: {
+      main: '#e71212',
+    },
   },
 });
 
