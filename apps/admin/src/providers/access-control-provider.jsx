@@ -18,42 +18,28 @@
 
 import {useAuthContext} from '@asgardeo/auth-react';
 import {useEffect, useState} from 'react';
-import {fetchLoggedInUserProfile} from '../api/self-service';
+import {UserGroups} from '../models/user';
 import AccessControlContext from '../contexts/access-control-context';
 
+const DEFAULT_ACCESS_CONTROL = {
+  dashboard: false,
+  devices: false,
+  services: false,
+  promotions: false,
+};
+
 const AccessControlProvider = ({children}) => {
-  const {state, signIn, on, trySignInSilently} = useAuthContext();
+  const {state, getDecodedIDToken, signIn, on, trySignInSilently} = useAuthContext();
   const {isAuthenticated, isLoading} = state;
 
-  const [accessControl, setAccessControl] = useState({
-    dashboard: false,
-    devices: false,
-    services: false,
-    promotions: false,
-  });
-
-  useEffect(() => {
-    if (!isAuthenticated && !isLoading) {
-      signIn();
-    }
-  }, [isAuthenticated, isLoading, signIn]);
-
-  useEffect(() => {
-    on('sign-in', res => {
-      // FIXME: `internal_login` is not working.
-      // fetchLoggedInUserProfile();
-      resolveAccessControl();
-    });
-  }, [on]);
+  const [accessControl, setAccessControl] = useState(DEFAULT_ACCESS_CONTROL);
 
   useEffect(() => {
     (async () => {
       try {
         const response = await trySignInSilently();
 
-        if (response) {
-          resolveAccessControl();
-        } else {
+        if (!response) {
           signIn();
         }
       } catch (e) {
@@ -62,15 +48,38 @@ const AccessControlProvider = ({children}) => {
     })();
   }, []);
 
-  const resolveAccessControl = () => {
-    // FIXME: Temp hard code.
-    setAccessControl({
-      dashboard: true,
-      devices: true,
-      services: true,
-      promotions: true,
-    });
-  };
+  useEffect(() => {
+    if (!isAuthenticated && !isLoading) {
+      signIn();
+    }
+  }, [isAuthenticated, isLoading, signIn]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+
+    (async () => {
+      const {groups} = await getDecodedIDToken();
+      let _accessControl = {...DEFAULT_ACCESS_CONTROL};
+
+      if (groups.includes(UserGroups.Admin)) {
+        _accessControl = Object.fromEntries(Object.entries(DEFAULT_ACCESS_CONTROL).map(([key, _]) => [key, true]));
+      } else if (groups.includes(UserGroups.Sales)) {
+        _accessControl = {
+          ...Object.fromEntries(Object.entries(DEFAULT_ACCESS_CONTROL).map(([key, _]) => [key, false])),
+          promotions: true,
+        };
+      } else if (groups.includes(UserGroups.Marketing)) {
+        _accessControl = {
+          ...Object.fromEntries(Object.entries(DEFAULT_ACCESS_CONTROL).map(([key, _]) => [key, false])),
+          dashboard: true,
+        };
+      }
+
+      setAccessControl(_accessControl);
+    })();
+  }, [getDecodedIDToken, isAuthenticated]);
 
   return <AccessControlContext.Provider value={{access: accessControl}}>{children}</AccessControlContext.Provider>;
 };
