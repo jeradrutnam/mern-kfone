@@ -1,26 +1,20 @@
 /**
- * MIT License
+ * Copyright (c) 2023, WSO2 LLC. (https://www.wso2.com). All Rights Reserved.
  *
- * Copyright (c) 2023 Jerad Rutnam (jeradrutnam.com)
+ * WSO2 LLC. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- **/
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 
 import React, {useEffect, useState} from 'react';
 import {Container, CssBaseline, Button, AppBar, Typography, Grow, Grid, Toolbar, Icon} from '@mui/material';
@@ -33,66 +27,41 @@ import IconMenu from './components/iconMenu/iconMenu';
 import Devices from './components/devices/devices';
 import FilterHeader from './components/filterHeader/filterHeader';
 import {classes, StyleWrapper} from './style';
-import {Box} from '@mui/system';
-import IconButton from '@mui/material/IconButton';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import DevicesView from './components/devicesView/devicesView';
-import ViewPromo from './components/viewPromo/viewPromo';
-import Divider from '@mui/material/Divider';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import DashboardLayout from './layouts/dashboard-layout';
+import {Route, Routes, BrowserRouter as Router} from 'react-router-dom';
+import DashboardPage from './pages/dashboard-page';
+import DevicesPage from './pages/devices-page';
+import ServicesPage from './pages/services-page';
+import PromotionsPage from './pages/promotions-page';
+import PageSpinner from './components/spinners/page-spinner';
+import AccessControlProvider from './providers/access-control-provider';
 
 const App = () => {
   const {state, signIn, signOut, on} = useAuthContext();
-  const dispatch = useDispatch();
+  const {isAuthenticated, isLoading} = state;
 
-  const USER_AUTHENTICATED = 'userAuthenticated';
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (localStorage.getItem(USER_AUTHENTICATED) === 'true') {
-      signIn();
-    }
-  }, []);
-
-  on('sign-in', () => {
-    localStorage.setItem(USER_AUTHENTICATED, 'true');
-  });
-
-  const handleLogout = () => {
-    localStorage.setItem(USER_AUTHENTICATED, 'false');
-    signOut();
-  };
+  // if (isLoading) {
+  //   return <PageSpinner />;
+  // }
 
   return (
-    <StyleWrapper>
-      <CssBaseline />
-      <AppBar position="relative" color="secondary" className={classes.appBar} style={{background: '#2E3B55'}}>
-        <Toolbar sx={{flexWrap: 'wrap'}}>
-          <Typography variant="h6" color="inherit" className={classes.heading} noWrap sx={{flexGrow: 1}}>
-            Kfone - Manage Services
-          </Typography>
-          <Box style={{marginRight: 24}}>
-            <Button variant="text">Dashboard</Button>
-            <Button variant="text">Settings</Button>
-            <Button variant="text">Manage Customers</Button>
-          </Box>
-          <IconButton size="large" edge="end" aria-label="account of current user" aria-haspopup="true" color="inherit">
-            <AccountCircle />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Grid container spacing={2}>
-        <Grid item xs={2} sx={{display: {xs: 'none', md: 'flex'}}}>
-          <IconMenu />
-        </Grid>
-        <Grid item xs={12} md={10}>
-          <ViewPromo />
-          {/* <DevicesView /> */}
-        </Grid>
-      </Grid>
-    </StyleWrapper>
+    <AccessControlProvider>
+      <StyleWrapper>
+        <CssBaseline />
+        <Router>
+          <Routes>
+            <Route path="/" element={<DashboardLayout />}>
+              <Route index element={<DashboardPage />} />
+              <Route path="devices" element={<DevicesPage />} />
+              <Route path="services" element={<ServicesPage />} />
+              <Route path="promotions" element={<PromotionsPage />} />
+            </Route>
+          </Routes>
+        </Router>
+      </StyleWrapper>
+    </AccessControlProvider>
   );
 };
 
