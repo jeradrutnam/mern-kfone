@@ -17,6 +17,7 @@
  */
 
 import fetch from 'node-fetch';
+import {JwtRsaVerifier} from 'aws-jwt-verify';
 import {v4 as uuidv4} from 'uuid';
 
 /**
@@ -56,6 +57,33 @@ const introspectAccessToken = async asgardeoAccessToken => {
 };
 
 /**
+ * Validate the Asgardeo access token in the form of a JWT
+ * @param {string} asgardeoAccessToken - The Asgardeo access token to introspect
+ * @returns {boolean} Returns true if the access token is valid, false otherwise
+ */
+const validateJWT = async asgardeoAccessToken => {
+
+  if (!asgardeoAccessToken) {
+    return false;
+  }
+
+  const verifier = JwtRsaVerifier.create({
+    audience: process.env.CLIENT_APP_ID.split(','),
+    issuer: process.env.ISSUER_URL,
+    jwksUri: process.env.JWKS_URL,
+  });
+
+  try {
+    await verifier.verify(asgardeoAccessToken);
+  } catch (err) {
+    // The token is invalid
+    return false;
+  }
+  // The token is valid
+  return true;
+};
+
+/**
  * Extracts an Asgardeo access token from the request headers
  * @param {object} req - The request object
  * @returns {string|null} Returns the Asgardeo access token or null if it cannot be extracted
@@ -84,7 +112,14 @@ const extractAsgardeoAccessToken = req => {
  */
 export const isValidAccessToken = async (req, res, next) => {
   const asgardeoAccessToken = extractAsgardeoAccessToken(req);
-  const isAccessTokenValid = await introspectAccessToken(asgardeoAccessToken);
+  const validateMethod = process.env.ACCESS_TOKEN_VALIDATION_METHOD || 'introspection';
+
+  let isAccessTokenValid = false;
+  if (validateMethod == 'jwtvalidation') {
+    isAccessTokenValid = await validateJWT(asgardeoAccessToken);
+  } else if (validateMethod == 'introspection') {
+    isAccessTokenValid = await introspectAccessToken(asgardeoAccessToken);
+  }
 
   if (isAccessTokenValid) {
     // The access token is valid, call the next middleware function
