@@ -18,8 +18,8 @@
 
 module.exports = {
   root: true,
-  extends: ["turbo"],
+  extends: ['turbo'],
   rules: {
-    'turbo/no-undeclared-env-vars': 'off'
-  }
+    'turbo/no-undeclared-env-vars': 'off',
+  },
 };

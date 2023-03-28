@@ -24,14 +24,7 @@
 
 import React from 'react';
 import moment from 'moment';
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Button,
-  Typography
-} from '@mui/material';
+import {Card, CardActions, CardContent, CardMedia, Button, Typography} from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {useDispatch} from 'react-redux';
 import {useAuthContext} from '@asgardeo/auth-react';
@@ -53,7 +46,7 @@ const Item = ({item, setCurrentId}) => {
         <div className={classes.overlay}>
           <Typography variant="h6">$ {item.price}</Typography>
           <Typography variant="body2">{moment(item.createdAt).fromNow()}</Typography>
-        </div>        
+        </div>
         {/* <div className={classes.details}>
           <Typography variant="body2" color="textSecondary">
             {item?.tags.map(tag => `#${tag} `)}

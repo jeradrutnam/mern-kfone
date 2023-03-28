@@ -7,7 +7,8 @@
 
 - `apps`
   - `client`: The client application for the Kfone MERN sample. [https://kfone.vercel.app](https://kfone.vercel.app/)
-  - `admin`: The admin application for the Kfone MERN sample. [https://kfone-admin.vercel.app](https://kfone-admin.vercel.app/)
+  - `admin`: The admin application for the Kfone MERN sample.
+    [https://kfone-admin.vercel.app](https://kfone-admin.vercel.app/)
 - `server`: The Node.js server for the Kfone MERN sample. [https://kfone-api.vercel.app](https://kfone-api.vercel.app/)
 
 ## 🚀 Getting Started
@@ -38,4 +39,5 @@ Excellent! Read up on our [guidelines for contributing](./CONTRIBUTING.md) to ge
 
 ## License
 
-Licenses this source under the Apache License, Version 2.0 [LICENSE](./LICENSE), You may not use this file except in compliance with the License.
+Licenses this source under the Apache License, Version 2.0 [LICENSE](./LICENSE), You may not use this file except in
+compliance with the License.
