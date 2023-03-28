@@ -17,15 +17,17 @@
  */
 
 import express from 'express';
-import {getPosts, createPost, updatePost, deletePost, likePost} from '../controllers/posts.js';
+import {createDevice, deleteDevice, getDevices, updateDevice} from '../controllers/devices.js';
 import {isValidAccessToken} from '../middlewares/auth.js';
 
+// Create a new Router instance from the Express.js package
 const router = express.Router();
 
-router.get('/', getPosts);
-router.post('/', isValidAccessToken, createPost);
-router.patch('/:id', isValidAccessToken, updatePost);
-router.delete('/:id', isValidAccessToken, deletePost);
-router.patch('/:id/like', isValidAccessToken, likePost);
+// Define the routes for the devices API
+router.get('/', getDevices); // Get all devices
+router.post('/', isValidAccessToken, createDevice); // Create a new device
+router.put('/:id', isValidAccessToken, updateDevice); // Update an existing device
+router.patch('/:id', isValidAccessToken, updateDevice); // Partially update an existing device
+router.delete('/:id', isValidAccessToken, deleteDevice); // Delete an existing device
 
 export default router;

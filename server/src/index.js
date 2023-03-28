@@ -21,8 +21,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import itemsRouter from './routes/items.js';
-import postRouter from './routes/posts.js';
+import devicesRouter from './routes/devices.js';
 import promotionsRouter from './routes/promotions.js';
 
 dotenv.config();
@@ -40,8 +39,7 @@ app.use(bodyParser.json({extended: true, limit: '30mb'}));
 app.use(bodyParser.urlencoded({extended: true, limit: '30mb'}));
 app.use(cors(CORS_CONFIG));
 
-app.use('/posts', postRouter);
-app.use('/items', itemsRouter);
+app.use('/devices', devicesRouter);
 app.use('/promotions', promotionsRouter);
 
 app.get('/', (_, res) => {

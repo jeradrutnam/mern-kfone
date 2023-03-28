@@ -43,6 +43,7 @@
     "react-file-base64": "^1.0.3",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.9.0",
+    "recharts": "^2.5.0",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.2"
   },
@@ -73,4 +74,3 @@
     ]
   }
 }
-

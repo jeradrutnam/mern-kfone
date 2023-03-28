@@ -31,8 +31,8 @@ const promotionSchema = new mongoose.Schema({
     type: Date,
   },
   items: {
-    ref: 'Item',
-    type: [mongoose.Schema.Types.ObjectId],
+    type: [mongoose.Schema.Types.Mixed],
+    required: true,
   },
   promoCode: {
     required: true,

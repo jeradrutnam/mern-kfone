@@ -18,8 +18,8 @@
 
 import mongoose from 'mongoose';
 
-// Define the schema for the items collection
-const itemSchema = mongoose.Schema({
+// Define the schema for the devices collection
+const deviceSchema = mongoose.Schema({
   createdAt: {
     default: Date.now,
     type: Date,
@@ -36,6 +36,10 @@ const itemSchema = mongoose.Schema({
     required: true,
     type: String,
   },
+  image: {
+    required: false,
+    type: String,
+  },
   price: {
     required: true,
     type: Number,
@@ -46,7 +50,7 @@ const itemSchema = mongoose.Schema({
   },
 });
 
-// Create a Mongoose model for the items collection, based on the itemSchema
-const Item = mongoose.model('Item', itemSchema);
+// Create a Mongoose model for the devices collection, based on the deviceSchema
+const Device = mongoose.model('Device', deviceSchema);
 
-export default Item;
+export default Device;

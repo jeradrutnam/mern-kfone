@@ -18,151 +18,151 @@
 
 import mongoose from 'mongoose';
 import {v4 as uuidv4} from 'uuid';
-import Item from '../models/item.js';
+import Device from '../models/device.js';
 
 /**
- * Fetches all items from the database
+ * Fetches all devices from the database
  * @param {import('express').Request} req - The request object
  * @param {import('express').Response} res - The response object
- * @returns {object} Returns the list of items with a 200 status code on success or a 500 status code on failure
+ * @returns {object} Returns the list of devices with a 200 status code on success or a 500 status code on failure
  */
-export const getItems = async (req, res) => {
+export const getDevices = async (req, res) => {
   try {
-    const items = await Item.find();
+    const devices = await Device.find();
 
-    res.status(200).json({items});
+    res.status(200).json({devices});
   } catch (error) {
     res.status(500).json({
-      code: 'MK-ITEMS-00001',
+      code: 'MK-DEVICES-00001',
       description: error.message,
-      message: 'An error occurred while retrieving the items.',
+      message: 'An error occurred while retrieving the devices.',
       traceId: uuidv4(),
     });
   }
 };
 
 /**
- * Creates a new item in the database
+ * Creates a new device in the database
  * @param {import('express').Request} req - The request object
  * @param {import('express').Response} res - The response object
- * @returns {object} Returns the newly created item with a 201 status code on success or a 409 status code on failure
+ * @returns {object} Returns the newly created device with a 201 status code on success or a 409 status code on failure
  */
-export const createItem = async (req, res) => {
+export const createDevice = async (req, res) => {
   // Extract the post data from the request body
   const post = req.body;
 
-  // Create a new item with the post data
-  const newItem = new Item(post);
+  // Create a new device with the post data
+  const newDevice = new Device(post);
 
   try {
-    // Save the new item to the database
-    await newItem.save();
+    // Save the new device to the database
+    await newDevice.save();
 
-    // Return the new item with a 201 status code
-    res.status(201).json({item: newItem});
+    // Return the new device with a 201 status code
+    res.status(201).json({device: newDevice});
   } catch (error) {
     // Return an error message with a 500 status code
     res.status(500).json({
-      code: 'MK-ITEMS-00002',
+      code: 'MK-DEVICES-00002',
       description: error.message,
-      message: 'An error occurred while creating the item.',
+      message: 'An error occurred while creating the device.',
       traceId: uuidv4(),
     });
   }
 };
 
 /**
- * Updates an item with the given ID and data.
+ * Updates an device with the given ID and data.
  * @param {import('express').Request} req - The HTTP request object.
  * @param {import('express').Response} res - The HTTP response object.
  * @returns {Promise<void>}
  */
-export const updateItem = async (req, res) => {
+export const updateDevice = async (req, res) => {
   try {
-    // Extract the item ID from the request params
+    // Extract the device ID from the request params
     const {id: _id} = req.params;
-    // Extract the item data from the request body
-    const item = req.body;
+    // Extract the device data from the request body
+    const device = req.body;
 
     // Check if the ID is a valid MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(_id)) {
       // If not, return a 404 error with a message
       return res.status(404).json({
-        code: 'MK-ITEMS-00002',
+        code: 'MK-DEVICES-00002',
         description: `Invalid ID: ${_id}`,
-        message: 'Could not find any item with that ID.',
+        message: 'Could not find any device with that ID.',
         traceId: uuidv4(),
       });
     }
 
-    // Try to update the item with the given ID and data
-    const updatedItem = await Item.findByIdAndUpdate(_id, {...item, _id}, {new: true});
+    // Try to update the device with the given ID and data
+    const updatedDevice = await Device.findByIdAndUpdate(_id, {...device, _id}, {new: true});
 
-    // If no item was found with the given ID, return a 404 error with a message
-    if (!updatedItem) {
+    // If no device was found with the given ID, return a 404 error with a message
+    if (!updatedDevice) {
       return res.status(404).json({
-        code: 'MK-ITEMS-00003',
+        code: 'MK-DEVICES-00003',
         description: `ID not found: ${_id}`,
-        message: 'Could not find any item with that ID.',
+        message: 'Could not find any device with that ID.',
         traceId: uuidv4(),
       });
     }
 
-    // If the item was successfully updated, return the updated item with a 200 status code
-    res.status(200).json(updatedItem);
+    // If the device was successfully updated, return the updated device with a 200 status code
+    res.status(200).json(updatedDevice);
   } catch (error) {
     // If an error occurred during the update operation, log the error and return a 500 error with a message
     res.status(500).json({
-      code: 'MK-ITEMS-00001',
+      code: 'MK-DEVICES-00001',
       description: error.message,
-      message: 'An error occurred while updating the item.',
+      message: 'An error occurred while updating the device.',
       traceId: uuidv4(),
     });
   }
 };
 
 /**
- * Deletes an item with the given ID.
+ * Deletes an device with the given ID.
  * @param {import('express').Request} req - The HTTP request object.
  * @param {import('express').Response} res - The HTTP response object.
  * @returns {Promise<void>}
  */
-export const deleteItem = async (req, res) => {
+export const deleteDevice = async (req, res) => {
   try {
-    // Extract the item ID from the request params
+    // Extract the device ID from the request params
     const {id: _id} = req.params;
 
     // Check if the ID is a valid MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(_id)) {
       // If not, return a 400 Bad Request error with a message
       return res.status(400).json({
-        code: 'MK-ITEMS-00002',
+        code: 'MK-DEVICES-00002',
         description: 'Invalid ID format',
         message: 'The provided ID is not valid',
         traceId: uuidv4(),
       });
     }
 
-    // Delete the item with the given ID from the database
-    const result = await Item.deleteOne({_id});
+    // Delete the device with the given ID from the database
+    const result = await Device.deleteOne({_id});
 
-    // Check if the item was found and deleted
+    // Check if the device was found and deleted
     if (result.deletedCount === 0) {
       // If not, return a 404 Not Found error with a message
       return res.status(404).json({
-        code: 'MK-ITEMS-00001',
-        description: 'Item not found',
-        message: 'The item with the provided ID was not found',
+        code: 'MK-DEVICES-00001',
+        description: 'Device not found',
+        message: 'The device with the provided ID was not found',
         traceId: uuidv4(),
       });
     }
 
-    // If the item was successfully deleted, return a 204 No Content status
+    // If the device was successfully deleted, return a 204 No Content status
     res.sendStatus(204);
   } catch (err) {
     // If an error occurred, log the error and return a 500 Internal Server Error status
     res.status(500).json({
-      code: 'MK-ITEMS-00003',
+      code: 'MK-DEVICES-00003',
       description: 'Internal Server Error',
       message: 'An internal server error occurred',
       traceId: uuidv4(),
