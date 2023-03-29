@@ -34,7 +34,7 @@ const request = requestConfig =>
  * @throws {Error} If the API request fails.
  */
 export async function fetchCustomers() {
-  const endpoint = `${endpointConfig.api.endpoints.users}?domain=DEFAULT&excludedAttributes=groups,roles`;
+  const endpoint = `${endpointConfig.api.endpoints.scimUsers}?domain=DEFAULT&excludedAttributes=groups,roles`;
 
   try {
     const response = await request({
@@ -61,7 +61,7 @@ export async function fetchCustomers() {
  * @throws {Error} If the API request fails.
  */
 export async function createCustomer(body) {
-  const endpoint = `${endpointConfig.api.endpoints.users}`;
+  const endpoint = `${endpointConfig.api.endpoints.scimUsers}`;
 
   try {
     const response = await request({
@@ -76,5 +76,36 @@ export async function createCustomer(body) {
     return response.data;
   } catch (error) {
     throw new Error('Failed to create the device');
+  }
+}
+
+/**
+ * Create a reference for the customer on the REST API.
+ *
+ * @async
+ * @function
+ * @param {Object} id - The UUID of the customer from Asgardeo.
+ * @returns {Promise<Object>} The newly created customer object.
+ * @throws {Error} If the API request fails.
+ */
+export async function createCustomerReference(id) {
+  const endpoint = `${endpointConfig.api.endpoints.users}`;
+
+  try {
+    const response = await request({
+      method: 'post',
+      url: endpoint,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: {
+        _id: id,
+        tier: 'Silver',
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to create the customer reference.');
   }
 }

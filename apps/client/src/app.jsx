@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Avatar,
   Container,
@@ -34,23 +34,23 @@ import {
   Menu,
   MenuItem,
   Tabs,
-  Tab
+  Tab,
 } from '@mui/material';
+import {useAuthContext} from '@asgardeo/auth-react';
+import {UserTiers} from './models/user';
 import MenuIcon from '@mui/icons-material/Menu';
 import StarIcon from '@mui/icons-material/Star';
-import { useDispatch, useSelector } from 'react-redux';
-import { useAuthContext } from '@asgardeo/auth-react';
-
+import {useDispatch, useSelector} from 'react-redux';
 import LOGO_IMAGE from './images/logo-full.svg';
-import { getDevices } from './actions/devices';
-import { getServices } from './actions/services';
+import {getDevices} from './actions/devices';
+import {getServices} from './actions/services';
 import Items from './components/items/items';
-import { classes, StyleWrapper, theme } from './style';
-import { createUser, fetchUserBySub } from './api/users';
+import {classes, StyleWrapper, theme} from './style';
+import {createUser, fetchUserBySub} from './api/users';
 import {USER_FETCH} from './constants/action-types';
 
 const App = () => {
-  const { state, signIn, signOut, on, getDecodedIDToken } = useAuthContext();
+  const {state, signIn, signOut, on, getDecodedIDToken} = useAuthContext();
   const [currentId, setCurrentId] = useState(null);
   const [displayName, setDisplayName] = useState(null);
   const [photoUrl, setPhotoUrl] = useState(null);
@@ -61,7 +61,7 @@ const App = () => {
   const user = useSelector(state => state.users);
 
   const USER_AUTHENTICATED = 'userAuthenticated';
-  const pages = ["Devices", "Services"]
+  const pages = ['Devices', 'Services'];
 
   useEffect(() => {
     dispatch(getDevices());
@@ -92,7 +92,7 @@ const App = () => {
 
       let res = await fetchUserBySub(idToken.sub);
       if (!res.data?.user) {
-        res = await createUser({ _id: idToken.sub });
+        res = await createUser({_id: idToken.sub, tier: UserTiers.Silver});
       }
       dispatch({payload: res.data.user, type: USER_FETCH});
     })();
@@ -117,17 +117,17 @@ const App = () => {
 
   const calculateTier = loyaltyPoints => {
     if (loyaltyPoints >= 500) {
-      return { label: 'Platinum', color: 'platinum', message: 'You are a Platinum member' };
+      return {label: 'Platinum', color: 'platinum', message: 'You are a Platinum member'};
     } else if (loyaltyPoints >= 300) {
-      return { label: 'Gold', color: 'gold', message: 'You are a Gold member' };
+      return {label: 'Gold', color: 'gold', message: 'You are a Gold member'};
     } else if (loyaltyPoints >= 150) {
-      return { label: 'Silver', color: 'platinum', message: 'You are a Silver member' };
+      return {label: 'Silver', color: 'platinum', message: 'You are a Silver member'};
     } else {
-      return { label: 'Red', color: 'red', message: `${150 - loyaltyPoints} more needed for Silver` };
+      return {label: 'Red', color: 'red', message: `${150 - loyaltyPoints} more needed for Silver`};
     }
   };
 
-  const handleOpenNavMenu = (event) => {
+  const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
   };
 
@@ -139,30 +139,23 @@ const App = () => {
     setValue(newValue);
   };
 
-  const TabPanel = (props) => {
-    const { children, value, index, page, ...other } = props;
-  
+  const TabPanel = props => {
+    const {children, value, index, page, ...other} = props;
+
     return (
-      <div
-        id={`simple-tabpanel-${page}`}
-        {...other}
-      >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            {children}
-          </Box>
-        )}
+      <div id={`simple-tabpanel-${page}`} {...other}>
+        {value === index && <Box sx={{p: 3}}>{children}</Box>}
       </div>
     );
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <StyleWrapper>
         <CssBaseline />
         <AppBar position="relative" color="default" className={classes.appBar}>
-          <Toolbar sx={{ flexWrap: 'wrap' }}>
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Toolbar sx={{flexWrap: 'wrap'}}>
+            <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -188,17 +181,17 @@ const App = () => {
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
                 sx={{
-                  display: { xs: 'block', md: 'none' },
+                  display: {xs: 'block', md: 'none'},
                 }}
               >
-                {pages.map((page) => (
+                {pages.map(page => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
             </Box>
-            <Typography variant="h6" color="inherit" className={classes.heading} noWrap sx={{ flexGrow: 1 }}>
+            <Typography variant="h6" color="inherit" className={classes.heading} noWrap sx={{flexGrow: 1}}>
               <img src={LOGO_IMAGE} alt="Kfone Logo" className={classes.logoImage} />
             </Typography>
             {!state.isAuthenticated ? (
@@ -206,7 +199,7 @@ const App = () => {
                 <Button
                   className={classes.buttonSubmit}
                   variant="outlined"
-                  sx={{ my: 1, mx: 1.5 }}
+                  sx={{my: 1, mx: 1.5}}
                   href={`${process.env.REACT_APP_ASGARDEO_SIGNUP_URL}`}
                 >
                   Register
@@ -214,7 +207,7 @@ const App = () => {
                 <Button
                   className={classes.buttonSubmit}
                   variant="contained"
-                  sx={{ my: 1, mx: 1.5 }}
+                  sx={{my: 1, mx: 1.5}}
                   onClick={() => signIn()}
                 >
                   Sign In
@@ -223,10 +216,16 @@ const App = () => {
             ) : (
               <>
                 <Box mx={2}>
-                  {tier?.label.toLowerCase() === 'red' &&
-                    <Typography variant="caption" display="inline-block" className={classes.chipCaption}>{tier?.message}</Typography>
-                  }
-                  <Chip icon={<StarIcon className='icon' />} className={`${classes.chip} ${tier?.color}`} label={tier?.label} />
+                  {tier?.label.toLowerCase() === 'red' && (
+                    <Typography variant="caption" display="inline-block" className={classes.chipCaption}>
+                      {tier?.message}
+                    </Typography>
+                  )}
+                  <Chip
+                    icon={<StarIcon className="icon" />}
+                    className={`${classes.chip} ${tier?.color}`}
+                    label={tier?.label}
+                  />
                 </Box>
                 {photoUrl ? <Avatar alt="Photo" src={photoUrl} /> : <Avatar>{displayName?.charAt(0)}</Avatar>}
                 <Box mx={2}>
@@ -235,7 +234,7 @@ const App = () => {
                 <Button
                   className={classes.buttonSubmit}
                   variant="outlined"
-                  sx={{ my: 1, mx: 1.5 }}
+                  sx={{my: 1, mx: 1.5}}
                   onClick={() => handleLogout()}
                 >
                   Logout
@@ -243,7 +242,7 @@ const App = () => {
               </>
             )}
           </Toolbar>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider', paddingLeft: '40px', paddingRight: '40px' }}>
+          <Box sx={{borderBottom: 1, borderColor: 'divider', paddingLeft: '40px', paddingRight: '40px'}}>
             <Tabs value={value} onChange={handleChange}>
               {pages.map((page, index) => (
                 <Tab label={page} key={index} />
@@ -261,12 +260,12 @@ const App = () => {
               spacing={3}
             >
               {pages.map((page, index) => (
-                  <TabPanel value={value} page={page} index={index} key={index}>
-                    <Grid item xs={12} sm={12}>
-                      <Items setCurrentId={setCurrentId} sm={4} tab={page} />
-                    </Grid>
-                  </TabPanel>
-                ))}
+                <TabPanel value={value} page={page} index={index} key={index}>
+                  <Grid item xs={12} sm={12}>
+                    <Items setCurrentId={setCurrentId} sm={4} tab={page} />
+                  </Grid>
+                </TabPanel>
+              ))}
             </Grid>
           </Grow>
         </Container>
