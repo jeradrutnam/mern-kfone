@@ -46,3 +46,43 @@ export const createUser = newUser => {
 
   return doHTTPRequest(requestConfig);
 };
+
+export const addFollowingItemToUser = (userId, itemId) => {
+  const requestConfig = {
+    method: 'PATCH',
+    data: {itemId},
+    url: `${url}/${userId}/follow`,
+  };
+
+  return doHTTPRequest(requestConfig);
+};
+
+export const removeFollowingItemFromUser = (userId, itemId) => {
+  const requestConfig = {
+    method: 'PATCH',
+    data: {itemId},
+    url: `${url}/${userId}/unfollow`,
+  };
+
+  return doHTTPRequest(requestConfig);
+};
+
+export const addCartItemToUser = (userId, itemId) => {
+  const requestConfig = {
+    method: 'PATCH',
+    data: {itemId},
+    url: `${url}/${userId}/addToCart`,
+  };
+
+  return doHTTPRequest(requestConfig);
+};
+
+export const removeCartItemFromUser = (userId, itemId) => {
+  const requestConfig = {
+    method: 'PATCH',
+    data: {itemId},
+    url: `${url}/${userId}/removeFromCart`,
+  };
+
+  return doHTTPRequest(requestConfig);
+};
