@@ -30,16 +30,16 @@ import Item from './item/item';
 import {classes, StyleWrapper} from './style';
 
 const Items = ({setCurrentId, sm}) => {
-  const items = useSelector(state => state.items)?.items;
+  const devices = useSelector(state => state.items)?.devices;
 
-  return !items?.length ? (
+  return !devices?.length ? (
     <CircularProgress />
   ) : (
     <StyleWrapper>
       <Grid className={classes.mainContainer} container alignItems="stretch" spacing={3}>
-        {items?.map(item => (
-          <Grid item key={item._id} xs={12} sm={sm} className={classes.mainContainerItem}>
-            <Item item={item} setCurrentId={setCurrentId} />
+        {devices?.map(device => (
+          <Grid item key={device._id} xs={12} sm={sm} className={classes.mainContainerItem}>
+            <Item item={device} setCurrentId={setCurrentId} />
           </Grid>
         ))}
       </Grid>
