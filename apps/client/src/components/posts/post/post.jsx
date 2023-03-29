@@ -40,7 +40,7 @@ import { addFollowingItemToUser, removeFollowingItemFromUser, addCartItemToUser,
 
 
 const Post = ({post, setCurrentId}) => {
-  const {state} = useAuthContext();
+  const {state, signIn} = useAuthContext();
   const [open, setOpen] = useState(false);
   const [following, setFollowing] = useState(false);
   const [inCart, setInCart] = useState(false);
@@ -64,6 +64,9 @@ const Post = ({post, setCurrentId}) => {
   }
 
   const handleAddToCart = (postId) => {
+    if (!state.isAuthenticated) {
+      signIn();
+    }
     if (!inCart) {
       dispatch(addCartItemToUser(state.sub, postId));
     } else {
