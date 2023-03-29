@@ -18,7 +18,7 @@
 
 import mongoose from 'mongoose';
 import {v4 as uuidv4} from 'uuid';
-import Promotion from '../models/Promotion.js';
+import Promotion from '../models/promotion.js';
 
 /**
  * Fetches all promotions from the database
