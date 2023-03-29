@@ -24,7 +24,7 @@ import {isValidAccessToken} from '../middlewares/auth.js';
 const router = express.Router();
 
 // Define the routes for the users API
-router.get('/:id', getUserById); // Get user by Id
+router.get('/:id', isValidAccessToken, getUserById); // Get user by Id
 router.post('/', isValidAccessToken, createUser); // Create a new user
 router.patch('/:id/follow', isValidAccessToken, addFollowingItem) // Add following item to user
 router.patch('/:id/unfollow', isValidAccessToken, removeFollowingItem) // Remove following item to user
