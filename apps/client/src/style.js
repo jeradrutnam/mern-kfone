@@ -16,7 +16,6 @@
  * under the License.
  */
 
-import {red} from '@mui/material/colors';
 import {styled, createTheme} from '@mui/material/styles';
 
 const PREFIX = 'custom';

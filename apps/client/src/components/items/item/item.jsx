@@ -84,7 +84,7 @@ const Item = ({item, setCurrentId}) => {
         <CardMedia className={classes.media} image={itemImage} title={item.name} />
         <div className={classes.overlay}>
           <Typography variant="h6">$ {item.price}</Typography>
-          <Typography variant="body2">{moment(item.createdAt).fromNow()}</Typography>
+          {/* <Typography variant="body2">{moment(item.createdAt).fromNow()}</Typography> */}
         </div>
         {/* TODO: Need to enable with updated feature */}
         {/* <div className={classes.details}>
@@ -109,8 +109,8 @@ const Item = ({item, setCurrentId}) => {
         {state.isAuthenticated && (
           <CardActions className={classes.cardActions}>
             <Button size="small" color="primary" onClick={() => handleFollow(item._id)}>
-              &nbsp;{following ? 'Following' : 'Follow'}
               {following ? <FavoriteIcon fontSize="small" /> : <FavoriteBorderIcon fontSize="small" />}
+              &nbsp;{following ? 'Watching' : 'Watch'}
             </Button>
           </CardActions>
         )}
