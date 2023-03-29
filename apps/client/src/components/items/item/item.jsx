@@ -29,7 +29,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import {useDispatch} from 'react-redux';
 import {useAuthContext} from '@asgardeo/auth-react';
 
-import {likeItem} from '../../../actions/items';
+import {likeDevice} from '../../../actions/devices';
 import {classes, StyleWrapper} from './style';
 import NO_IMAGE from '../../../images/no-image.jpg';
 
@@ -47,6 +47,7 @@ const Item = ({item, setCurrentId}) => {
           <Typography variant="h6">$ {item.price}</Typography>
           <Typography variant="body2">{moment(item.createdAt).fromNow()}</Typography>
         </div>
+        {/* TODO: Need to enable with updated feature */}
         {/* <div className={classes.details}>
           <Typography variant="body2" color="textSecondary">
             {item?.tags.map(tag => `#${tag} `)}
@@ -60,14 +61,15 @@ const Item = ({item, setCurrentId}) => {
             {item.description}
           </Typography>
         </CardContent>
-        {state.isAuthenticated && (
+        {/* TODO: Need to enable with updated feature */}
+        {/* {state.isAuthenticated && (
           <CardActions className={classes.cardActions}>
-            <Button size="small" color="primary" onClick={() => dispatch(likeItem(item._id))}>
+            <Button size="small" color="primary" onClick={() => dispatch(likeDevice(item._id))}>
               <FavoriteIcon fontSize="medium" />
               &nbsp;Favorite {item.likeCount}
             </Button>
           </CardActions>
-        )}
+        )} */}
       </Card>
     </StyleWrapper>
   );

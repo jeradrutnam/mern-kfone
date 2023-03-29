@@ -16,55 +16,6 @@
  * under the License.
  */
 
-import {AsgardeoSPAClient} from '@asgardeo/auth-react';
-import axios from 'axios';
-
-const url = `${process.env.REACT_APP_API_ENDPOINT}/devices`;
-
-const spaClient = AsgardeoSPAClient.getInstance();
-
-const doHTTPRequest = requestConfig =>
-  spaClient
-    .httpRequest(requestConfig)
-    .then(response => response)
-    .catch(error => error);
-
-export const fetchItems = () => axios.get(url);
-
-export const createItem = newItem => {
-  const requestConfig = {
-    data: newItem,
-    method: 'POST',
-    url,
-  };
-
-  return doHTTPRequest(requestConfig);
-};
-
-export const updateItem = (id, updatedItem) => {
-  const requestConfig = {
-    data: updatedItem,
-    method: 'PATCH',
-    url: `${url}/${id}`,
-  };
-
-  return doHTTPRequest(requestConfig);
-};
-
-export const deleteItem = id => {
-  const requestConfig = {
-    method: 'DELETE',
-    url: `${url}/${id}`,
-  };
-
-  return doHTTPRequest(requestConfig);
-};
-
-export const likeItem = id => {
-  const requestConfig = {
-    method: 'PATCH',
-    url: `${url}/${id}/like`,
-  };
-
-  return doHTTPRequest(requestConfig);
-};
+export * from './devices';
+export * from './services';
+export * from './users';

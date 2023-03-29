@@ -35,11 +35,11 @@ import {useDispatch} from 'react-redux';
 import {useAuthContext} from '@asgardeo/auth-react';
 
 import LOGO_IMAGE from './images/logo-full.svg';
-import {getItems} from './actions/items';
+import { getDevices } from './actions/devices';
+import { getServices } from './actions/services';
 import Posts from './components/items/items';
-import Form from './components/form/form';
 import {classes, StyleWrapper, theme} from './style';
-import {createUser, fetchUserBySub} from './api/user';
+import {createUser, fetchUserBySub} from './api/users';
 
 const App = () => {
   const {state, signIn, signOut, on, getDecodedIDToken} = useAuthContext();
@@ -53,7 +53,8 @@ const App = () => {
   const USER_AUTHENTICATED = 'userAuthenticated';
 
   useEffect(() => {
-    dispatch(getItems());
+    dispatch(getDevices());
+    dispatch(getServices());
   }, [dispatch]);
 
   useEffect(() => {
@@ -169,22 +170,9 @@ const App = () => {
               alignItems="stretch"
               spacing={3}
             >
-              {state.isAuthenticated ? (
-                <>
-                  <Grid item xs={12} sm={7}>
-                    <Posts setCurrentId={setCurrentId} sm={6} />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <Form currentId={currentId} setCurrentId={setCurrentId} />
-                  </Grid>
-                </>
-              ) : (
-                <>
-                  <Grid item xs={12} sm={12}>
-                    <Posts setCurrentId={setCurrentId} sm={4} />
-                  </Grid>
-                </>
-              )}
+              <Grid item xs={12} sm={12}>
+                <Posts setCurrentId={setCurrentId} sm={4} />
+              </Grid>
             </Grid>
           </Grow>
         </Container>

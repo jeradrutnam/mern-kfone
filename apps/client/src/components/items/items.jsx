@@ -31,6 +31,7 @@ import {classes, StyleWrapper} from './style';
 
 const Items = ({setCurrentId, sm}) => {
   const devices = useSelector(state => state.items)?.devices;
+  const services = useSelector(state => state.items)?.services;
 
   return !devices?.length ? (
     <CircularProgress />
@@ -40,6 +41,11 @@ const Items = ({setCurrentId, sm}) => {
         {devices?.map(device => (
           <Grid item key={device._id} xs={12} sm={sm} className={classes.mainContainerItem}>
             <Item item={device} setCurrentId={setCurrentId} />
+          </Grid>
+        ))}
+        {services?.map(service => (
+          <Grid item key={service._id} xs={12} sm={sm} className={classes.mainContainerItem}>
+            <Item item={service} setCurrentId={setCurrentId} />
           </Grid>
         ))}
       </Grid>
