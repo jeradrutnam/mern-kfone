@@ -21,3 +21,9 @@ export const FETCH_ALL = 'FETCH_ALL';
 export const UPDATE = 'UPDATE';
 export const DELETE = 'DELETE';
 export const LIKE = 'LIKE';
+
+export const USER_FETCH = 'USER_FETCH';
+export const USER_FOLLOW = 'USER_FOLLOW';
+export const USER_REMOVE_FOLLOW = 'USER_REMOVE_FOLLOW';
+export const USER_ADD_CART = 'USER_ADD_CART';
+export const USER_REMOVE_CART = 'USER_REMOVE_CART';

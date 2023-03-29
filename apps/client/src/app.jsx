@@ -31,24 +31,25 @@ import {
   Toolbar,
   ThemeProvider,
 } from '@mui/material';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useAuthContext} from '@asgardeo/auth-react';
 
 import LOGO_IMAGE from './images/logo-full.svg';
-import { getDevices } from './actions/devices';
-import { getServices } from './actions/services';
+import {getDevices} from './actions/devices';
+import {getServices} from './actions/services';
 import Posts from './components/items/items';
 import {classes, StyleWrapper, theme} from './style';
 import {createUser, fetchUserBySub} from './api/users';
+import {USER_FETCH} from './constants/action-types';
 
 const App = () => {
   const {state, signIn, signOut, on, getDecodedIDToken} = useAuthContext();
   const [currentId, setCurrentId] = useState(null);
   const [displayName, setDisplayName] = useState(null);
   const [photoUrl, setPhotoUrl] = useState(null);
-  const [loyaltyPoints, setLoyaltyPoints] = useState(null);
   const [tier, setTier] = useState(null);
   const dispatch = useDispatch();
+  const user = useSelector(state => state.users);
 
   const USER_AUTHENTICATED = 'userAuthenticated';
 
@@ -83,13 +84,17 @@ const App = () => {
       if (!res.data?.user) {
         res = await createUser({_id: idToken.sub});
       }
-      setLoyaltyPoints(res.data.user.points);
+      dispatch({payload: res.data.user, type: USER_FETCH});
     })();
   }, [getDecodedIDToken, state?.isAuthenticated]);
 
   useEffect(() => {
-    setTier(calculateTier(loyaltyPoints));
-  }, [loyaltyPoints]);
+    if (user) {
+      setTier(calculateTier(user.points));
+    } else {
+      setTier(null);
+    }
+  }, [user]);
 
   on('sign-in', () => {
     localStorage.setItem(USER_AUTHENTICATED, 'true');

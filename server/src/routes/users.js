@@ -17,7 +17,7 @@
  */
 
 import express from 'express';
-import {getUserById, createUser} from '../controllers/users.js';
+import {getUserById, createUser, addFollowingItem, removeFollowingItem, addCartItem, removeCartItem} from '../controllers/users.js';
 import {isValidAccessToken} from '../middlewares/auth.js';
 
 // Create a new Router instance from the Express.js package
@@ -26,5 +26,9 @@ const router = express.Router();
 // Define the routes for the users API
 router.get('/:id', isValidAccessToken, getUserById); // Get user by Id
 router.post('/', isValidAccessToken, createUser); // Create a new user
+router.patch('/:id/follow', isValidAccessToken, addFollowingItem) // Add following item to user
+router.patch('/:id/unfollow', isValidAccessToken, removeFollowingItem) // Remove following item to user
+router.patch('/:id/addToCart', isValidAccessToken, addCartItem) // Add cart item to user
+router.patch('/:id/removeFromCart', isValidAccessToken, removeCartItem) // Remove cart item to user
 
 export default router;

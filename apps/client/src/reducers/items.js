@@ -21,10 +21,10 @@ import {CREATE, UPDATE, DELETE, LIKE, FETCH_ALL} from '../constants/action-types
 const ITEMS_REDUCER = (items = [], action) => {
   switch (action.type) {
     case FETCH_ALL:
-      return { ...items, [action.itemType]: action.payload[action.itemType] }
+      return {...items, [action.itemType]: action.payload[action.itemType]};
     // TODO: Need to check below methods with feature additions
     case CREATE:
-      return { ...items, [action.itemType]: action.payload[action.itemType] };
+      return {...items, [action.itemType]: action.payload[action.itemType]};
     case UPDATE:
     case LIKE:
       return items[action.itemType].map(item => (item._id === action.payload._id ? action.payload : item));

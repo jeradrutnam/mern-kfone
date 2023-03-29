@@ -31,7 +31,7 @@ export const getDevices = () => async dispatch => {
 
 export const updateDevice = (id, device) => async dispatch => {
   try {
-    const {data} = await api.updateDevice(id, item);
+    const {data} = await api.updateDevice(id, device);
 
     dispatch({payload: data, type: UPDATE, itemType: 'devices'});
   } catch (error) {
