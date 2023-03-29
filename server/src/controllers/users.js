@@ -90,3 +90,179 @@ export const createUser = async (req, res) => {
     });
   }
 };
+
+/**
+ * Add an item to the user's following list
+ * @param {import('express').Request} req - The HTTP request object.
+ * @param {import('express').Response} res - The HTTP response object.
+ * @returns {Promise<void>}
+ */
+export const addFollowingItem = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const itemId = req.body.itemId;
+
+    const user = await User.findById(userId).exec();
+
+    if (!user) {
+      return res.status(404).json({
+        code: 'MK-USR-00002',
+        description: `Invalid ID: ${userId}`,
+        message: 'Could not find any user with that ID.',
+        traceId: uuidv4(),
+      });
+    }
+
+    const favorited = user['favorited'];
+    favorited.push(itemId);
+
+    const updatedUser = await User.findByIdAndUpdate(userId, {...user, favorited }, {new: true});
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        code: 'MK-USR-00003',
+        description: `ID not found: ${_id}`,
+        message: 'Could not find any user with that ID.',
+        traceId: uuidv4(),
+      });
+    }
+
+    return res.status(200).json(updatedUser);
+
+  } catch (error) {
+    return res.status(500).json({
+      code: 'MK-USR-00001',
+      description: error.message,
+      message: 'An error occurred while updating the user.',
+      traceId: uuidv4(),
+    });
+  }
+};
+
+/**
+ * Remove an item to the user's following list
+ * @param {import('express').Request} req - The HTTP request object.
+ * @param {import('express').Response} res - The HTTP response object.
+ * @returns {Promise<void>}
+ */
+export const removeFollowingItem = async (req, res) => {
+  console.log("Start removeFollowingItem");
+  try {
+    const userId = req.params.id;
+    const itemId = req.body.itemId;
+
+    await User.updateOne({ _id: userId }, {
+      $pullAll: {
+          favorited: [ itemId ],
+      },
+    });
+
+    const updatedUser = await User.findById(userId).exec();
+    if (!updatedUser) {
+      return res.status(404).json({
+        code: 'MK-USR-00003',
+        description: `ID not found: ${_id}`,
+        message: 'Could not find any user with that ID.',
+        traceId: uuidv4(),
+      });
+    }
+
+    return res.status(200).json(updatedUser);
+
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      code: 'MK-USR-00001',
+      description: error.message,
+      message: 'An error occurred while updating the user.',
+      traceId: uuidv4(),
+    });
+  }
+};
+
+/**
+ * Add an item to the user's cart
+ * @param {import('express').Request} req - The HTTP request object.
+ * @param {import('express').Response} res - The HTTP response object.
+ * @returns {Promise<void>}
+ */
+export const addCartItem = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const itemId = req.body.itemId;
+
+    const user = await User.findById(userId).exec();
+
+    if (!user) {
+      return res.status(404).json({
+        code: 'MK-USR-00002',
+        description: `Invalid ID: ${userId}`,
+        message: 'Could not find any user with that ID.',
+        traceId: uuidv4(),
+      });
+    }
+
+    const cart = user['cart'];
+    cart.push(itemId);
+
+    const updatedUser = await User.findByIdAndUpdate(userId, {...user, cart }, {new: true});
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        code: 'MK-USR-00003',
+        description: `ID not found: ${_id}`,
+        message: 'Could not find any user with that ID.',
+        traceId: uuidv4(),
+      });
+    }
+
+    return res.status(200).json(updatedUser);
+
+  } catch (error) {
+    return res.status(500).json({
+      code: 'MK-USR-00001',
+      description: error.message,
+      message: 'An error occurred while updating the user.',
+      traceId: uuidv4(),
+    });
+  }
+};
+
+/**
+ * Remove an item from the user's cart
+ * @param {import('express').Request} req - The HTTP request object.
+ * @param {import('express').Response} res - The HTTP response object.
+ * @returns {Promise<void>}
+ */
+export const removeCartItem = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const itemId = req.body.itemId;
+
+    await User.updateOne({ _id: userId }, {
+      $pullAll: {
+          cart: [ itemId ],
+      },
+    });
+
+    const updatedUser = await User.findById(userId).exec();
+    if (!updatedUser) {
+      return res.status(404).json({
+        code: 'MK-USR-00003',
+        description: `ID not found: ${_id}`,
+        message: 'Could not find any user with that ID.',
+        traceId: uuidv4(),
+      });
+    }
+
+    return res.status(200).json(updatedUser);
+
+  } catch (error) {
+    return res.status(500).json({
+      code: 'MK-USR-00001',
+      description: error.message,
+      message: 'An error occurred while updating the user.',
+      traceId: uuidv4(),
+    });
+  }
+};

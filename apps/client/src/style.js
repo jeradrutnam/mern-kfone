@@ -24,8 +24,11 @@ const PREFIX = 'custom';
 export const classes = {
   appBar: `${PREFIX}-app-bar`,
   heading: `${PREFIX}-heading`,
-  image: `${PREFIX}-image`,
+  logoImage: `${PREFIX}-logo-image`,
   mainContainer: `${PREFIX}-main-container`,
+  menuItem: `${PREFIX}-menu-item`,
+  chip: `${PREFIX}-chip`,
+  chipCaption: `${PREFIX}-chip-caption`,
 };
 
 export const theme = createTheme({
@@ -43,8 +46,35 @@ export const StyleWrapper = styled('div')(({theme}) => ({
   [`& .${classes.heading}`]: {
     color: '#ed3d48',
   },
-  [`& .${classes.image}`]: {
+  [`& .${classes.menuItem}`]: {
+    color: '#ed3d48',
+    marginRight: '20px',
+  },
+  [`& .${classes.chipCaption}`]: {
+    marginRight: '20px',
+  },
+  [`& .${classes.chip}`]: {
+    color: '#ffffff',
+  },
+  [`& .${classes.chip}.red`]: {
+    backgroundColor: '#ed3d48',
+  },
+  [`& .${classes.chip}.silver`]: {
+    backgroundColor: '#B6B6B6',
+  },
+  [`& .${classes.chip}.gold`]: {
+    backgroundColor: '#F1F2F0',
+  },
+  [`& .${classes.chip}.platinum`]: {
+    backgroundColor: '#060809',
+  },
+  [`& .${classes.chip} .icon`]: {
+    fill: '#ffffff',
+  },
+  [`& .${classes.logoImage}`]: {
     marginLeft: '15px',
+    marginTop: '25px',
+    marginBottom: '23px'
   },
   [`& .${classes.mainContainer}`]: {
     [theme.breakpoints.down('sm')]: {
