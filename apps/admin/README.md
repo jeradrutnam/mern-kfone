@@ -1,5 +1,5 @@
 <p align="center" style="color: #343a40">
-  <h1 align="center">Kfone MERN Sample - Admin</h1>
+  <h1 align="center">Kfone MERN Sample - Admin App</h1>
 </p>
 <p align="center" style="font-size: 1.2rem;">The admin application for the Kfone MERN sample.</p>
 

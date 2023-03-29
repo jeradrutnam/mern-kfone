@@ -32,6 +32,7 @@ export const classes = {
   overlay: `${PREFIX}-overlay`,
   overlay2: `${PREFIX}-overlay2`,
   title: `${PREFIX}-title`,
+  subText: `${PREFIX}-sub-text`,
 };
 
 export const StyleWrapper = styled('div')(({theme}) => ({
@@ -39,6 +40,9 @@ export const StyleWrapper = styled('div')(({theme}) => ({
     [theme.breakpoints.down('sm')]: {
       width: '100%',
     },
+  },
+  [`& .${classes.subText}`]: {
+    paddingTop: 0,
   },
   [`& .${classes.media}`]: {
     backgroundSize: 'auto 100%',
@@ -60,7 +64,7 @@ export const StyleWrapper = styled('div')(({theme}) => ({
     position: 'relative',
   },
   [`& .${classes.overlay}`]: {
-    color: 'white',
+    color: '#444',
     left: '20px',
     position: 'absolute',
     top: '20px',

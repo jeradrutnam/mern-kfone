@@ -121,7 +121,7 @@ export default function ManageCustomers() {
 
         if (response) {
           await createCustomerReference(response.id);
-          setCustomers([...customers, response.device]);
+          setCustomers([...customers, response]);
         }
       }
 
