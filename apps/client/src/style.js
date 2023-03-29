@@ -74,7 +74,7 @@ export const StyleWrapper = styled('div')(({theme}) => ({
   [`& .${classes.logoImage}`]: {
     marginLeft: '15px',
     marginTop: '25px',
-    marginBottom: '23px'
+    marginBottom: '23px',
   },
   [`& .${classes.mainContainer}`]: {
     [theme.breakpoints.down('sm')]: {
