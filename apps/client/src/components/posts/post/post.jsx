@@ -1,28 +1,23 @@
 /**
- * MIT License
+ * Copyright (c) 2023, WSO2 LLC. (https://www.wso2.com). All Rights Reserved.
  *
- * Copyright (c) 2023 Jerad Rutnam (jeradrutnam.com)
+ * WSO2 LLC. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- **/
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 
-import React, {useState} from 'react';
+
+import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import {
   Card,
@@ -31,26 +26,25 @@ import {
   CardMedia,
   Button,
   Typography,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
 } from '@mui/material';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import {useDispatch} from 'react-redux';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import {useDispatch, useSelector} from 'react-redux';
 import {useAuthContext} from '@asgardeo/auth-react';
 
-import {deletePost, likePost} from '../../../actions/posts';
 import {classes, StyleWrapper} from './style';
 import NO_IMAGE from '../../../images/no-image.jpg';
+import { addFollowingItemToUser, removeFollowingItemFromUser, addCartItemToUser, removeCartItemFromUser } from '../../../actions/users';
+
 
 const Post = ({post, setCurrentId}) => {
   const {state} = useAuthContext();
   const [open, setOpen] = useState(false);
+  const [following, setFollowing] = useState(false);
+  const [inCart, setInCart] = useState(false);
+  const user = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   const handleClickOpen = () => {
@@ -61,66 +55,74 @@ const Post = ({post, setCurrentId}) => {
     setOpen(false);
   };
 
-  const postImage = post.selectedFile || NO_IMAGE;
+  const handleFollow = (postId) => {
+    if (!following) {
+      dispatch(addFollowingItemToUser(state.sub, postId));
+    } else {
+      dispatch(removeFollowingItemFromUser(state.sub, postId));
+    }
+  }
+
+  const handleAddToCart = (postId) => {
+    if (!inCart) {
+      dispatch(addCartItemToUser(state.sub, postId));
+    } else {
+      dispatch(removeCartItemFromUser(state.sub, postId));
+    }
+  }
+
+  useEffect(() => {
+    if (user?.favorited && user.favorited.includes(post._id)) {
+      setFollowing(true);
+    } else {
+      setFollowing(false);
+    }
+
+    if (user?.cart && user.cart.includes(post._id)) {
+      setInCart(true);
+    } else {
+      setInCart(false);
+    }
+  }, [user]);
+
+  const postImage = post.image || NO_IMAGE;
 
   return (
     <StyleWrapper>
       <Card className={classes.card}>
-        <CardMedia className={classes.media} image={postImage} title={post.title} />
-        <div className={classes.overlay}>
-          <Typography variant="h6">{post.creator}</Typography>
-          <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
-        </div>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{'Delete post ?'}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              You are going to delete this post. Are you sure to proceed with the action ?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="error">
-              Cancel
-            </Button>
-            <Button onClick={() => dispatch(deletePost(post._id))} color="error" variant="contained" autoFocus>
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
-        {state.isAuthenticated && (
-          <div className={classes.overlay2}>
-            <IconButton className={classes.cardAdminActions} size="small" onClick={() => setCurrentId(post._id)}>
-              <EditIcon fontSize="medium" />
-            </IconButton>
-            <IconButton className={classes.cardAdminActions} size="small" onClick={handleClickOpen}>
-              <DeleteIcon fontSize="small" />
-            </IconButton>
-          </div>
-        )}
-        <div className={classes.details}>
-          <Typography variant="body2" color="textSecondary">
-            {post.tags.map(tag => `#${tag} `)}
-          </Typography>
-        </div>
+        <CardMedia className={classes.media} image={postImage} title={post.name} />
         <Typography className={classes.title} variant="h5" gutterBottom>
-          {post.title}
+          {post.name}
         </Typography>
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            {post.message}
+            {post.description}
+          </Typography>
+        </CardContent>
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            $ {post.price}
           </Typography>
         </CardContent>
         <CardActions className={classes.cardActions}>
-          <Button size="small" color="primary" onClick={() => dispatch(likePost(post._id))}>
-            <ThumbUpAltIcon fontSize="small" />
-            &nbsp;Like {post.likeCount}
-          </Button>
-        </CardActions>
+            <Button size="small" color="primary" onClick={() => handleAddToCart(post._id)}>
+              {
+                inCart ? <ShoppingCartIcon fontSize="small" /> : <AddShoppingCartIcon fontSize="small" />
+              }
+              &nbsp;{inCart ? 'In Cart' : 'Add to Cart'}
+            </Button>
+          </CardActions>
+        {state.isAuthenticated && (
+          <CardActions className={classes.cardActions}>
+            <Button size="small" color="primary" onClick={() => handleFollow(post._id)}>
+              &nbsp;{following ? 'Following' : 'Follow'}
+              {
+                following ? <FavoriteIcon fontSize="small" /> : <FavoriteBorderIcon fontSize="small" />
+              }
+              
+            </Button>
+          </CardActions>
+        )}
       </Card>
     </StyleWrapper>
   );

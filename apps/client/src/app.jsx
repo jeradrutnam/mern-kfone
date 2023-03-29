@@ -31,7 +31,7 @@ import {
   Toolbar,
   ThemeProvider,
 } from '@mui/material';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useAuthContext} from '@asgardeo/auth-react';
 
 import {getPosts} from './actions/posts';
@@ -39,14 +39,15 @@ import Posts from './components/posts/posts';
 import Form from './components/form/form';
 import {classes, StyleWrapper, theme} from './style';
 import {createUser, fetchUserBySub} from './api/user';
+import { USER_FETCH } from './constants/action-types';
 
 const App = () => {
   const {state, signIn, signOut, on, getDecodedIDToken} = useAuthContext();
   const [currentId, setCurrentId] = useState(null);
   const [displayName, setDisplayName] = useState(null);
   const [photoUrl, setPhotoUrl] = useState(null);
-  const [loyaltyPoints, setLoyaltyPoints] = useState(null);
   const [tier, setTier] = useState(null);
+  const user = useSelector(state => state.user)
   const dispatch = useDispatch();
 
   const USER_AUTHENTICATED = 'userAuthenticated';
@@ -81,13 +82,17 @@ const App = () => {
       if (!res.data?.user) {
         res = await createUser({_id: idToken.sub});
       }
-      setLoyaltyPoints(res.data.user.points);
+      dispatch({payload: res.data.user, type: USER_FETCH});
     })();
   }, [getDecodedIDToken, state?.isAuthenticated]);
 
   useEffect(() => {
-    setTier(calculateTier(loyaltyPoints));
-  }, [loyaltyPoints]);
+    if (user) {
+      setTier(calculateTier(user.points));
+    } else {
+      setTier(null);
+    }
+  }, [user]);
 
   on('sign-in', () => {
     localStorage.setItem(USER_AUTHENTICATED, 'true');
@@ -160,22 +165,9 @@ const App = () => {
               alignItems="stretch"
               spacing={3}
             >
-              {state.isAuthenticated ? (
-                <>
-                  <Grid item xs={12} sm={7}>
-                    <Posts setCurrentId={setCurrentId} sm={6} />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <Form currentId={currentId} setCurrentId={setCurrentId} />
-                  </Grid>
-                </>
-              ) : (
-                <>
-                  <Grid item xs={12} sm={12}>
-                    <Posts setCurrentId={setCurrentId} sm={4} />
-                  </Grid>
-                </>
-              )}
+              <Grid item xs={12} sm={12}>
+                <Posts setCurrentId={setCurrentId} sm={4} />
+              </Grid>
             </Grid>
           </Grow>
         </Container>
