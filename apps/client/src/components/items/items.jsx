@@ -29,23 +29,19 @@ import {Grid, CircularProgress} from '@mui/material';
 import Item from './item/item';
 import {classes, StyleWrapper} from './style';
 
-const Items = ({setCurrentId, sm}) => {
-  const devices = useSelector(state => state.items)?.devices;
-  const services = useSelector(state => state.items)?.services;
+const Items = ({setCurrentId, sm, tab}) => {
+  const TabName = tab.toLowerCase();
 
-  return !devices?.length ? (
+  const items = useSelector(state => state.items)?.[`${TabName}`];
+
+  return !items?.length ? (
     <CircularProgress />
   ) : (
     <StyleWrapper>
       <Grid className={classes.mainContainer} container alignItems="stretch" spacing={3}>
-        {devices?.map(device => (
-          <Grid item key={device._id} xs={12} sm={sm} className={classes.mainContainerItem}>
-            <Item item={device} setCurrentId={setCurrentId} />
-          </Grid>
-        ))}
-        {services?.map(service => (
-          <Grid item key={service._id} xs={12} sm={sm} className={classes.mainContainerItem}>
-            <Item item={service} setCurrentId={setCurrentId} />
+        {items?.map(item => (
+          <Grid item key={item._id} xs={12} sm={sm} className={classes.mainContainerItem}>
+            <Item item={item} setCurrentId={setCurrentId} />
           </Grid>
         ))}
       </Grid>
