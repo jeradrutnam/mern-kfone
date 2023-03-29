@@ -33,7 +33,7 @@ import {
 } from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {useAuthContext} from '@asgardeo/auth-react';
-
+import {UserTiers} from './models/user';
 import LOGO_IMAGE from './images/logo-full.svg';
 import {getItems} from './actions/items';
 import Posts from './components/items/items';
@@ -80,7 +80,7 @@ const App = () => {
 
       let res = await fetchUserBySub(idToken.sub);
       if (!res.data?.user) {
-        res = await createUser({_id: idToken.sub});
+        res = await createUser({_id: idToken.sub, tier: UserTiers.Silver});
       }
       setLoyaltyPoints(res.data.user.points);
     })();

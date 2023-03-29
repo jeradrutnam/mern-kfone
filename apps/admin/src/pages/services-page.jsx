@@ -239,7 +239,7 @@ const ServicesPage = () => {
           <TextField size="Normal" variant="filled" fullWidth label="Search..." id="fullWidth" />
         </Grid>
         <Grid item xs={6}></Grid>
-        <Grid item xs>
+        <Grid item xs style={{display: 'flex', justifyContent: 'flex-end'}}>
           <Fab onClick={() => handleOpen('ADD')} variant="extended" size="medium" color="primary" aria-label="add">
             <AddIcon sx={{mr: 1}} />
             Add Services

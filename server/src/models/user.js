@@ -39,6 +39,11 @@ const userSchema = mongoose.Schema(
       default: 0,
       type: Number,
     },
+    tier: {
+      required: true,
+      type: String,
+      enum: ['Silver', 'Gold', 'Platinum'],
+    },
   },
   {_id: false},
 );

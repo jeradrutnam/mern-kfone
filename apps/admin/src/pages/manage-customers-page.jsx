@@ -17,7 +17,7 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {fetchCustomers, createCustomer} from '../api/customers';
+import {fetchCustomers, createCustomer, createCustomerReference} from '../api/customers';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -30,6 +30,8 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Autocomplete from '@mui/material/Autocomplete';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -38,6 +40,7 @@ import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import {UserTiers} from '../models/user';
 
 const tableStyle = {
   marginTop: 56,
@@ -69,6 +72,7 @@ const DEFAULT_FORM_VALUES = {
   name: {familyName: '', givenName: ''},
   password: '',
   userName: '',
+  tier: UserTiers.Silver,
 };
 
 export default function ManageCustomers() {
@@ -101,53 +105,30 @@ export default function ManageCustomers() {
   const handleCustomerCreateUpdate = async e => {
     e.preventDefault();
 
+    const {tier, ...userInfo} = {...formData};
+
     let _formData = {
-      ...formData,
+      ...userInfo,
       userName: `DEFAULT/${formData.emails[0].value}`,
+      'urn:scim:wso2:schema': {
+        tier,
+      },
     };
 
-    await createCustomer(_formData);
-    // try {
-    //   if (formMode === 'ADD') {
-    //     const response = await createDevice(formData);
+    try {
+      if (formMode === 'ADD') {
+        const response = await createCustomer(_formData);
 
-    //     if (response) {
-    //       setCustomers([...customers, response.device]);
-    //     }
-    //   } else {
-    //     const response = await updateDevice(formData._id, formData);
+        if (response) {
+          await createCustomerReference(response.id);
+          setCustomers([...customers, response.device]);
+        }
+      }
 
-    //     if (response) {
-    //       const updatedDevices = customers.map(device => {
-    //         if (device._id === response._id) {
-    //           return response;
-    //         }
-
-    //         return device;
-    //       });
-
-    //       setCustomers(updatedDevices);
-    //     }
-    //   }
-
-    //   handleClose();
-    // } catch (error) {
-    //   // Log error.
-    // }
-  };
-
-  const handleCustomerDelete = async id => {
-    // try {
-    //   await deleteDevice(id);
-    //   const updatedDevices = customers.filter(device => device._id !== id);
-    //   setCustomers(updatedDevices);
-    // } catch (e) {
-    //   // Log error.
-    // }
-  };
-
-  const handleCustomerUpdate = device => {
-    setFormData(device);
+      handleClose();
+    } catch (error) {
+      // Log error.
+    }
   };
 
   const renderModal = () => {
@@ -202,6 +183,20 @@ export default function ManageCustomers() {
               value={formData.password}
               onChange={e => setFormData({...formData, password: e.target.value})}
             />
+            <Stack spacing={3}>
+              <Autocomplete
+                required
+                options={Object.values(UserTiers)}
+                getOptionLabel={option => option}
+                filterSelectedOptions
+                renderInput={params => <TextField {...params} label="Select Tier" />}
+                value={formData.tier}
+                defaultValue={Object.values(UserTiers)[0]}
+                onChange={(e, newValue) => {
+                  setFormData({...formData, tier: newValue});
+                }}
+              />
+            </Stack>
             <Divider sx={{pb: 3}} variant="fullWidth" />
             <Button style={modalButton} type="submit" variant="contained">
               {action}
@@ -221,10 +216,11 @@ export default function ManageCustomers() {
         </Typography>
       </div>
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item xs>
           <TextField size="Normal" variant="filled" fullWidth label="Search..." id="fullWidth" />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={6}></Grid>
+        <Grid item xs style={{display: 'flex', justifyContent: 'flex-end'}}>
           <Fab onClick={() => handleOpen('ADD')} variant="extended" size="medium" color="primary" aria-label="add">
             <AddIcon sx={{mr: 1}} />
             Add Customers
@@ -240,8 +236,7 @@ export default function ManageCustomers() {
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell align="right">id</TableCell>
-                <TableCell align="right">Description</TableCell>
-                <TableCell align="right">Action</TableCell>
+                <TableCell align="right">Domain</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -251,7 +246,6 @@ export default function ManageCustomers() {
                     <Box sx={{display: 'flex', alignItems: 'center', gap: '10px'}}>
                       <Avatar
                         alt={customer.emails[0]}
-                        src={customer['urn:scim:wso2:schema'].photoUrl}
                         src={customer['urn:scim:wso2:schema'].photoUrl}
                         height={40}
                         width={40}
@@ -263,27 +257,6 @@ export default function ManageCustomers() {
                   </TableCell>
                   <TableCell align="right">{customer.id}</TableCell>
                   <TableCell align="right">{customer.userName}</TableCell>
-                  <TableCell align="right">
-                    <IconButton
-                      onClick={() => {
-                        handleOpen('EDIT');
-                        handleCustomerUpdate(customer);
-                      }}
-                      color="primary"
-                      aria-label="edit device"
-                      component="label"
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      color="red"
-                      aria-label="edit device"
-                      component="label"
-                      onClick={() => handleCustomerDelete(customer._id)}
-                    >
-                      <DeleteOutlineIcon />
-                    </IconButton>
-                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

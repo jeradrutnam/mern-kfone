@@ -20,6 +20,27 @@ import {v4 as uuidv4} from 'uuid';
 import User from '../models/user.js';
 
 /**
+ * Fetches all users from the database
+ * @param {import('express').Request} req - The request object
+ * @param {import('express').Response} res - The response object
+ * @returns {object} Returns the list of users with a 200 status code on success or a 500 status code on failure
+ */
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+
+    res.status(200).json({users});
+  } catch (error) {
+    res.status(500).json({
+      code: 'MK-USR-00001',
+      description: error.message,
+      message: 'An error occurred while retrieving the users.',
+      traceId: uuidv4(),
+    });
+  }
+};
+
+/**
  * Fetch user by Id from the database
  * @param {import('express').Request} req - The request object
  * @param {import('express').Response} res - The response object

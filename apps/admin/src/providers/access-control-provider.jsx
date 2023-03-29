@@ -77,6 +77,7 @@ const AccessControlProvider = ({children}) => {
         _accessControl = {
           ...Object.fromEntries(Object.entries(DEFAULT_ACCESS_CONTROL).map(([key, _]) => [key, false])),
           promotions: true,
+          manageCustomers: true,
         };
         handleNavigation(routesConfig.promotions);
       } else if (idToken?.groups.includes(UserGroups.Marketing)) {

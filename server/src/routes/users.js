@@ -17,13 +17,14 @@
  */
 
 import express from 'express';
-import {getUserById, createUser} from '../controllers/users.js';
+import {getUsers, getUserById, createUser} from '../controllers/users.js';
 import {isValidAccessToken} from '../middlewares/auth.js';
 
 // Create a new Router instance from the Express.js package
 const router = express.Router();
 
 // Define the routes for the users API
+router.get('/', isValidAccessToken, getUsers); // Get all users.
 router.get('/:id', isValidAccessToken, getUserById); // Get user by Id
 router.post('/', isValidAccessToken, createUser); // Create a new user
 

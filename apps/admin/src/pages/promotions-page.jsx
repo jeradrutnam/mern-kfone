@@ -279,10 +279,11 @@ const PromotionsPage = () => {
         </Typography>
       </div>
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item xs>
           <TextField size="Normal" variant="filled" fullWidth label="Search..." id="fullWidth" />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={6}></Grid>
+        <Grid item xs style={{display: 'flex', justifyContent: 'flex-end'}}>
           <Fab onClick={() => handleOpen('ADD')} variant="extended" size="medium" color="primary" aria-label="add">
             <AddIcon sx={{mr: 1}} />
             Add Promotions

@@ -17,15 +17,6 @@
  */
 
 /**
- * Different types of user groups.
- */
-export const UserGroups = Object.freeze({
-  Admin: 'admins',
-  Sales: 'sales',
-  Marketing: 'marketing',
-});
-
-/**
  * Different types of user tiers.
  */
 export const UserTiers = Object.freeze({

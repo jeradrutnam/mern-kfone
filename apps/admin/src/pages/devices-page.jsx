@@ -215,10 +215,11 @@ const DevicesPage = () => {
         </Typography>
       </div>
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item xs>
           <TextField size="Normal" variant="filled" fullWidth label="Search..." id="fullWidth" />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={6}></Grid>
+        <Grid item xs style={{display: 'flex', justifyContent: 'flex-end'}}>
           <Fab onClick={() => handleOpen('ADD')} variant="extended" size="medium" color="primary" aria-label="add">
             <AddIcon sx={{mr: 1}} />
             Add Devices
@@ -226,7 +227,6 @@ const DevicesPage = () => {
           {renderModal()}
         </Grid>
       </Grid>
-
       <div style={tableStyle}>
         <TableContainer style={tableStyle} component={Paper}>
           <Table sx={{minWidth: 650}} aria-label="simple table">
