@@ -116,7 +116,7 @@ export const addFollowingItem = async (req, res) => {
     const favorited = user['favorited'];
     favorited.push(itemId);
 
-    const updatedUser = await User.findByIdAndUpdate(userId, {...user, favorited }, {new: true});
+    const updatedUser = await User.findByIdAndUpdate(userId, {...user, favorited}, {new: true});
 
     if (!updatedUser) {
       return res.status(404).json({
@@ -128,7 +128,6 @@ export const addFollowingItem = async (req, res) => {
     }
 
     return res.status(200).json(updatedUser);
-
   } catch (error) {
     return res.status(500).json({
       code: 'MK-USR-00001',
@@ -146,16 +145,19 @@ export const addFollowingItem = async (req, res) => {
  * @returns {Promise<void>}
  */
 export const removeFollowingItem = async (req, res) => {
-  console.log("Start removeFollowingItem");
+  console.log('Start removeFollowingItem');
   try {
     const userId = req.params.id;
     const itemId = req.body.itemId;
 
-    await User.updateOne({ _id: userId }, {
-      $pullAll: {
-          favorited: [ itemId ],
+    await User.updateOne(
+      {_id: userId},
+      {
+        $pullAll: {
+          favorited: [itemId],
+        },
       },
-    });
+    );
 
     const updatedUser = await User.findById(userId).exec();
     if (!updatedUser) {
@@ -168,7 +170,6 @@ export const removeFollowingItem = async (req, res) => {
     }
 
     return res.status(200).json(updatedUser);
-
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({
@@ -205,7 +206,7 @@ export const addCartItem = async (req, res) => {
     const cart = user['cart'];
     cart.push(itemId);
 
-    const updatedUser = await User.findByIdAndUpdate(userId, {...user, cart }, {new: true});
+    const updatedUser = await User.findByIdAndUpdate(userId, {...user, cart}, {new: true});
 
     if (!updatedUser) {
       return res.status(404).json({
@@ -217,7 +218,6 @@ export const addCartItem = async (req, res) => {
     }
 
     return res.status(200).json(updatedUser);
-
   } catch (error) {
     return res.status(500).json({
       code: 'MK-USR-00001',
@@ -239,11 +239,14 @@ export const removeCartItem = async (req, res) => {
     const userId = req.params.id;
     const itemId = req.body.itemId;
 
-    await User.updateOne({ _id: userId }, {
-      $pullAll: {
-          cart: [ itemId ],
+    await User.updateOne(
+      {_id: userId},
+      {
+        $pullAll: {
+          cart: [itemId],
+        },
       },
-    });
+    );
 
     const updatedUser = await User.findById(userId).exec();
     if (!updatedUser) {
@@ -256,7 +259,6 @@ export const removeCartItem = async (req, res) => {
     }
 
     return res.status(200).json(updatedUser);
-
   } catch (error) {
     return res.status(500).json({
       code: 'MK-USR-00001',

@@ -95,7 +95,7 @@ const Item = ({item, setCurrentId}) => {
         <Typography className={classes.title} variant="h5" gutterBottom>
           {item.name}
         </Typography>
-        <CardContent className={classes.subText} >
+        <CardContent className={classes.subText}>
           <Typography variant="body2" color="textSecondary" component="p">
             {item.description}
           </Typography>
