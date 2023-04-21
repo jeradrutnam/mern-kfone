@@ -37,7 +37,7 @@ const userSchema = mongoose.Schema(
     cart: {
       required: false,
       default: [],
-      type: [{ ref: 'Item', type: mongoose.Schema.Types.ObjectId }],
+      type: [{ref: 'Item', type: mongoose.Schema.Types.ObjectId}],
     },
     points: {
       required: true,
