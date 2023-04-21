@@ -25,8 +25,13 @@ import devicesRouter from './routes/devices.js';
 import servicesRouter from './routes/services.js';
 import promotionsRouter from './routes/promotions.js';
 import usersRouter from './routes/users.js';
+import path from 'path';
+import {fileURLToPath} from 'url';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({path: path.resolve(__dirname, path.join('..', '.env.local'))});
 
 const PORT = process.env.PORT || 5000;
 
